@@ -1,10 +1,8 @@
-<%- @databases.each do |env, db| %>
-<%= (env =~ /_default/ ? "production" : env) %>:
-  adapter: <%= db['adapter'] %>
+<%= @rails_env %>:
+  adapter: <%= @database['adapter'] %>
   host: <%= @host %>
-  database: <%= db['database'] %>
-  username: <%= db['username'] %>
-  password: <%= db['password'] %>
-  encoding: <%= db.has_key?('encoding') ? db['encoding'] : 'utf8' %>
+  database: <%= @database['database'] %>
+  username: <%= @database['username'] %>
+  password: <%= @database['password'] %>
+  encoding: <%= @database.has_key?('encoding') ? @database['encoding'] : 'utf8' %>
   reconnect: true
-<%- end %>
