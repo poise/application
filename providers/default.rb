@@ -26,6 +26,7 @@ action :deploy do
 
   new_resource.sub_resources.each do |resource|
     resource.application_provider self
+    resource.run_action :before_compile
   end
 
   new_resource.packages.each do |pkg,ver|
@@ -72,10 +73,6 @@ action :deploy do
       mode "0755"
       variables :id => new_resource.id, :deploy_to => new_resource.path
     end
-  end
-
-  new_resource.sub_resources.each do |resource|
-    resource.run_action :before_compile
   end
 
   ruby_block "#{new_resource.id} before_deploy" do
