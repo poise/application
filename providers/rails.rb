@@ -20,6 +20,8 @@
 
 action :before_compile do
 
+  new_resource.migration_command ||= "rake db:migrate"
+
   new_resource.environment.update({
     "RAILS_ENV" => new_resource.environment_name,
   })

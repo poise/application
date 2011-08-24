@@ -33,7 +33,7 @@ class Chef
         klass.attribute :create_dirs_before_symlink, :kind_of => Array, :default => []
         klass.attribute :symlinks, :kind_of => Hash, :default => {}
         klass.attribute :symlink_before_migrate, :kind_of => Hash, :default => {}
-        klass.attribute :migration_command, :kind_of => [String, NilClass], :default => 'rake db:migrate'
+        klass.attribute :migration_command, :kind_of => [String, NilClass], :default => nil
         klass.attribute :restart_command, :kind_of => [String, NilClass], :default => nil
         klass.attribute :application
         klass.attribute :application_provider
