@@ -19,6 +19,7 @@
 #
 
 action :before_compile do
+  new_resource.restart_command ||= "/etc/init.d/#{new_resource.id} hup"
 end
 
 action :before_deploy do
@@ -31,8 +32,10 @@ action :before_symlink do
 end
 
 action :before_restart do
+  return # Don't want to fix things yet
 
-  node.default[:unicorn][:worker_timeout] = 60
+  new_resource = @new_resource
+
   node.default[:unicorn][:preload_app] = false
   node.default[:unicorn][:worker_processes] = [node[:cpu][:total].to_i * 4, 8].min
   node.default[:unicorn][:preload_app] = false
@@ -40,31 +43,24 @@ action :before_restart do
   node.default[:unicorn][:port] = '8080'
   node.set[:unicorn][:options] = { :tcp_nodelay => true, :backlog => 100 }
 
-  unicorn_config "/etc/unicorn/#{app['id']}.rb" do
+  unicorn_config "/etc/unicorn/#{new_resource.id}.rb" do
     listen({ node[:unicorn][:port] => node[:unicorn][:options] })
-    working_directory ::File.join(app['deploy_to'], 'current')
-    worker_timeout node[:unicorn][:worker_timeout] 
+    working_directory ::File.join(new_resource.path, 'current')
+    worker_timeout new_resource.worker_timeout 
     preload_app node[:unicorn][:preload_app] 
     worker_processes node[:unicorn][:worker_processes]
     before_fork node[:unicorn][:before_fork] 
   end
 
-  runit_service app['id'] do
+  runit_service new_resource.id do
     template_name 'unicorn'
     cookbook 'application'
     options(
       :app => app,
-      :rails_env => node.run_state[:rails_env] || node.chef_environment,
-      :smells_like_rack => ::File.exists?(::File.join(app['deploy_to'], "current", "config.ru"))
+      :rails_env => new_resource.environment_name,
+      :smells_like_rack => ::File.exists?(::File.join(new_resource.path, "current", "config.ru"))
     )
     run_restart false
-  end
-
-  if ::File.exists?(::File.join(app['deploy_to'], "current"))
-    d = resources(:deploy_revision => app['id'])
-    d.restart_command do
-      execute "/etc/init.d/#{app['id']} hup"
-    end
   end
 
 end
