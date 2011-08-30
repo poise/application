@@ -20,5 +20,5 @@
 
 include Chef::Resource::ApplicationBase
 
-attribute :worker_timeout, :kind_of => Integer, :default => node[:unicorn][:worker_timeout] || 60
+attribute :worker_timeout, :kind_of => Integer, :default => node.fetch(:unicorn, {})[:worker_timeout] || 60
 attribute :port, :kind_of => Integer, :default => 8080
