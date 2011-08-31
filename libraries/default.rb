@@ -21,8 +21,8 @@
 class Chef
   class Resource
     # Globally update the blocklists to prevent infinite recursion in #to_json and similar
-    FORBIDDEN_IVARS += [:@application, :@application_provider]
-    HIDDEN_IVARS += [:@application, :@application_provider]
+    FORBIDDEN_IVARS.concat [:@application, :@application_provider]
+    HIDDEN_IVARS.concat [:@application, :@application_provider]
 
     module ApplicationBase
       def self.included(klass)
