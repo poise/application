@@ -19,7 +19,7 @@
 #
 
 action :before_compile do
-  new_resource.restart_command ||= "/etc/init.d/#{new_resource.id} hup"
+  new_resource.restart_command "/etc/init.d/#{new_resource.id} hup" if !new_resource.restart_command
 end
 
 action :before_deploy do
