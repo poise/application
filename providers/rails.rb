@@ -104,6 +104,11 @@ action :before_migrate do
   gem_names = new_resource.gems.map{|gem, ver| gem}
   if gem_names.include?('bundler')
     Chef::Log.info "Running bundle install"
+    directory "#{new_resource.path}/shared/vendor_bundle" do
+      owner new_resource.owner
+      group new_resource.group
+      mode '0755'
+    end
     link "#{new_resource.release_path}/vendor/bundle" do
       to "#{new_resource.path}/shared/vendor_bundle"
     end
