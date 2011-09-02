@@ -35,6 +35,7 @@ attribute :environment_name, :kind_of => String, :default => (node.chef_environm
 attribute :path, :kind_of => String
 attribute :owner, :kind_of => String
 attribute :group, :kind_of => String
+attribute :strategy, :kind_of => [String, Symbol], :default => :deploy_revision
 attribute :revision, :kind_of => String
 attribute :repository, :kind_of => String
 attribute :environment, :kind_of => Hash, :default => {}

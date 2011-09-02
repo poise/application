@@ -84,7 +84,7 @@ action :deploy do
     end
   end
 
-  @deploy_resource = deploy_revision new_resource.id do
+  @deploy_resource = send(new_resource.strategy.to_sym, new_resource.id) do
     revision new_resource.revision
     repository new_resource.repository
     user new_resource.owner
