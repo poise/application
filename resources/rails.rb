@@ -22,7 +22,15 @@ include Chef::Resource::ApplicationBase
 
 attribute :database_master_role, :kind_of => [String, NilClass], :default => nil
 attribute :memcached_role, :kind_of => [String, NilClass], :default => nil
-attribute :database, :kind_of => Hash, :default => {}
-attribute :memcached, :kind_of => Hash, :default => {}
 attribute :gems, :kind_of => [Array, Hash], :default => []
 attribute :bundler_deployment, :kind_of => [NilClass, TrueClass, FalseClass], :default => nil
+
+def database(*args, &block)
+  @database ||= Mash.new
+  @database.update(options_block(*args, &block))
+end
+
+def memcached(*args, &block)
+  @database ||= Mash.new
+  @database.update(options_block(*args, &block))
+end

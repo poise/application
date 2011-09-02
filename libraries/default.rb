@@ -24,6 +24,23 @@ class Chef
     FORBIDDEN_IVARS.concat [:@application, :@application_provider]
     HIDDEN_IVARS.concat [:@application, :@application_provider]
 
+    class Application
+      module OptionsCollector
+        def options
+          @options ||= {}
+        end
+
+        def method_missing(method_sym, value=nil, &block)
+          super
+        rescue NameError
+          value ||= block
+          method_sym = method_sym.to_s.chomp('=').to_sym
+          options[method_sym] = value if value
+          options[method_sym] ||= nil
+        end
+      end
+    end
+
     module ApplicationBase
       def self.included(klass)
         klass.actions :before_compile, :before_deploy, :before_migrate, :before_symlink, :before_restart, :after_restart
@@ -49,6 +66,20 @@ class Chef
 
       def release_path
         application_provider.release_path
+      end
+
+      class OptionsBlock
+        include Chef::Resource::Application::OptionsCollector
+      end
+
+      def options_block(options=nil, &block)
+        options ||= {}
+        if block
+          collector = OptionsBlock.new
+          collector.instance_eval(&block)
+          options.update(collector.options)
+        end
+        options
       end
     end
   end
