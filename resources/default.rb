@@ -95,7 +95,7 @@ def method_missing(name, &block)
   lookup_path.each do |resource_name|
     begin
       Chef::Log.debug "Trying to load application resource #{resource_name} for #{name}"
-      resource = super(resource_name, name, &block)
+      resource = super(resource_name.to_sym, name, &block)
       break
     rescue NameError
       next
