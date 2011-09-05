@@ -30,7 +30,7 @@ end
 
 actions :deploy, :remove
 
-attribute :id, :kind_of => String, :name_attribute => true
+attribute :name, :kind_of => String, :name_attribute => true
 attribute :environment_name, :kind_of => String, :default => (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
 attribute :path, :kind_of => String
 attribute :owner, :kind_of => String
@@ -82,15 +82,31 @@ def after_restart(arg=nil, &block)
 end
 
 def method_missing(name, &block)
-  begin
-    resource = super("application_#{name.to_s}", id, &block)
-  rescue NoMethodError
-    resource = super(name, id, &block)
+  # Build the set of names to check for a valid resource
+  lookup_path = ["application_#{name}"]
+  run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
+    if cookbook_name.start_with?("application_")
+      lookup_path << "#{cookbook_name}_#{name}"
+    end
   end
+  lookup_path << name
+  resource = nil
+  # Try to find our resource
+  lookup_path.each do |resource_name|
+    begin
+      Chef::Log.debug "Trying to load application resource #{resource_name} for #{name}"
+      resource = super(resource_name, name, &block)
+      break
+    rescue NameError
+      next
+    end
+  end
+  raise NameError, "No resource found for #{name}. Tried #{lookup_path.join(', ')}" unless resource
   # Enforce action :nothing in case people forget
   resource.action :nothing
   # Make this a weakref to prevent a cycle between the application resource and the sub resources
   resource.application WeakRef.new(self)
+  resource.type name
   @sub_resources << resource
   resource
 end

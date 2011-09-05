@@ -75,7 +75,7 @@ action :deploy do
     end
   end
 
-  ruby_block "#{new_resource.id} before_deploy" do
+  ruby_block "#{new_resource.name} before_deploy" do
     block do
       new_resource.sub_resources.each do |resource|
         resource.run_action :before_deploy
@@ -84,7 +84,7 @@ action :deploy do
     end
   end
 
-  @deploy_resource = send(new_resource.strategy.to_sym, new_resource.id) do
+  @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
     revision new_resource.revision
     repository new_resource.repository
     user new_resource.owner
@@ -92,13 +92,27 @@ action :deploy do
     deploy_to new_resource.path
     ssh_wrapper "#{new_resource.path}/deploy-ssh-wrapper" if new_resource.deploy_key
     shallow_clone true
-    all_environments = [new_resource.environment]+new_resource.sub_resources.map{|res| res.environment}
-    environment all_environments.inject({}){|acc, val| acc.merge(val)}
+    all_environments = ([new_resource.environment]+new_resource.sub_resources.map{|res| res.environment}).inject({}){|acc, val| acc.merge(val)}
+    environment all_environments
     migrate new_resource.migrate
-    all_migration_commands = ([new_resource.migration_command]+new_resource.sub_resources.map{|res| res.migration_command}).select{|res| res}
-    migration_command all_migration_commands.join(';')
-    all_restart_commands = ([new_resource.restart_command]+new_resource.sub_resources.map{|res| res.restart_command}).select{|res| res}
-    restart_command all_restart_commands.join(';')
+    all_migration_commands = ([new_resource.migration_command]+new_resource.sub_resources.map{|res| res.migration_command}).select{|cmd| cmd && !cmd.empty?}
+    migration_command all_migration_commands.join(' && ')
+    restart_command do
+      ([new_resource]+new_resource.sub_resources).each do |res|
+        cmd = res.restart_command
+        if cmd.is_a? Proc
+          provider = Chef::Platform.provider_for_resource(res)
+          provider.load_current_resource
+          provider.instance_eval(&cmd)
+        elsif cmd && !cmd.empty?
+          execute cmd do
+            user new_resource.owner
+            group new_resource.group
+            environment all_environments
+          end
+        end
+      end
+    end
     purge_before_symlink new_resource.purge_before_symlink
     create_dirs_before_symlink new_resource.create_dirs_before_symlink
     symlinks new_resource.symlinks

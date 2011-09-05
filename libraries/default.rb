@@ -51,9 +51,16 @@ class Chef
         klass.attribute :symlinks, :kind_of => Hash, :default => {}
         klass.attribute :symlink_before_migrate, :kind_of => Hash, :default => {}
         klass.attribute :migration_command, :kind_of => [String, NilClass], :default => nil
-        klass.attribute :restart_command, :kind_of => [String, NilClass], :default => nil
         klass.attribute :application
         klass.attribute :application_provider
+        klass.attribute :type
+      end
+
+      def restart_command(arg=nil, &block)
+        arg ||= block
+        raise "Invalid restart command" unless !arg || arg.is_a?(String) || arg.is_a?(Proc)
+        @restart_command = arg if arg
+        @restart_command
       end
 
       def method_missing(name, *args)
@@ -80,6 +87,30 @@ class Chef
           options.update(collector.options)
         end
         options
+      end
+
+      def find_matching_role(role, single=true, &block)
+        return nil if !role
+        nodes = []
+        if node['roles'].include? role
+          nodes << node
+        end
+        if !single || nodes.empty?
+          search(:node, "role:#{role} AND chef_environment:#{node.chef_environment}") do |n|
+            nodes << n
+          end
+        end
+        if block
+          nodes.each do |n|
+            yield n
+          end
+        else
+          if single
+            nodes.first
+          else
+            nodes
+          end
+        end
       end
     end
   end
