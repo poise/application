@@ -51,16 +51,8 @@ action :deploy do
   end
 
   if new_resource.deploy_key
-    ruby_block "write_key" do
-      block do
-        f = ::File.open("#{new_resource.path}/id_deploy", "w")
-        f.print(new_resource.deploy_key)
-        f.close
-      end
-      not_if do ::File.exists?("#{new_resource.path}/id_deploy"); end
-    end
-
     file "#{new_resource.path}/id_deploy" do
+      content new_resource.deploy_key
       owner new_resource.owner
       group new_resource.group
       mode '0600'
