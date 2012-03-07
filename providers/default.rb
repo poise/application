@@ -71,7 +71,7 @@ action :deploy do
       owner new_resource.owner
       group new_resource.group
       mode "0755"
-      variables :id => new_resource.id, :deploy_to => new_resource.path
+      variables :id => new_resource.name, :deploy_to => new_resource.path
     end
   end
 
