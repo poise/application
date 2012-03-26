@@ -106,11 +106,15 @@ if app["database_master_role"]
   if node.run_list.roles.include?(app["database_master_role"][0])
     dbm = node
   else
-  # Find the database master
-    results = search(:node, "role:#{app["database_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
-    rows = results[0]
-    if rows.length == 1
-      dbm = rows[0]
+    if Chef::Config[:solo]
+      Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+    else
+      # Find the database master
+      results = search(:node, "role:#{app["database_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
+      rows = results[0]
+      if rows.length == 1
+        dbm = rows[0]
+      end
     end
   end
   
