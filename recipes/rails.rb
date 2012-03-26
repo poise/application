@@ -17,18 +17,18 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app]
+app = node.run_state['current_app']
 
 # make the _default chef_environment look like the Rails production environment
 rails_env = (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
-node.run_state[:rails_env] = rails_env
+node.run_state['rails_env'] = rails_env
 
 ###
 # You really most likely don't want to run this recipe from here - let the
 # default application recipe work it's mojo for you.
 ###
 
-node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
+node.default['apps'][app['id']][node.chef_environment]['run_migrations'] = false
 
 ## First, install any application specific packages
 if app['packages']
@@ -133,7 +133,7 @@ if app["database_master_role"]
 end
 
 if app["memcached_role"]
-  results = search(:node, "role:#{app["memcached_role"][0]} AND chef_environment:#{node.chef_environment} NOT hostname:#{node[:hostname]}")
+  results = search(:node, "role:#{app["memcached_role"][0]} AND chef_environment:#{node.chef_environment} NOT hostname:#{node['hostname']}")
   if results.length == 0
     if node.run_list.roles.include?(app["memcached_role"][0])
       results << node
@@ -197,7 +197,7 @@ deploy_revision app['id'] do
     "memcached.yml" => "config/memcached.yml"
   })
 
-  if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
+  if app['migrate'][node.chef_environment] && node['apps'][app['id']][node.chef_environment]['run_migrations']
     migrate true
     migration_command app['migration_command'] || "rake db:migrate"
   else

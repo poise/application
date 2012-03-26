@@ -17,14 +17,14 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app]
+app = node.run_state['current_app']
 
 ###
 # You really most likely don't want to run this recipe from here - let the
 # default application recipe work it's mojo for you.
 ###
 
-node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
+node.default['apps'][app['id']][node.chef_environment]['run_migrations'] = false
 
 ## First, install any application specific packages
 if app['packages']

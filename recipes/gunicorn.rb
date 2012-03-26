@@ -17,25 +17,25 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app] 
+app = node.run_state['current_app'] 
 
 ve = resources(:python_virtualenv => app['id'])
-node.default[:gunicorn][:virtualenv] = ve.path
+node.default['gunicorn']['virtualenv'] = ve.path
 
 include_recipe "gunicorn"
 
-node.default[:gunicorn][:worker_timeout] = 60
-node.default[:gunicorn][:preload_app] = false
-node.default[:gunicorn][:worker_processes] = [node[:cpu][:total].to_i * 4, 8].min
-node.default[:gunicorn][:server_hooks] = {:pre_fork => 'import time;time.sleep(1)'}
-node.default[:gunicorn][:port] = '8080'
+node.default['gunicorn']['worker_timeout'] = 60
+node.default['gunicorn']['preload_app'] = false
+node.default['gunicorn']['worker_processes'] = [node['cpu']['total'].to_i * 4, 8].min
+node.default['gunicorn']['server_hooks'] = {:pre_fork => 'import time;time.sleep(1)'}
+node.default['gunicorn']['port'] = '8080'
 
 gunicorn_config "/etc/gunicorn/#{app['id']}.py" do
-  listen "#{node[:ipaddress]}:#{node[:gunicorn][:port]}"
-  worker_timeout node[:gunicorn][:worker_timeout] 
-  preload_app node[:gunicorn][:preload_app] 
-  worker_processes node[:gunicorn][:worker_processes]
-  server_hooks node[:gunicorn][:server_hooks]
+  listen "#{node['ipaddress']}:#{node['gunicorn']['port']}"
+  worker_timeout node['gunicorn']['worker_timeout'] 
+  preload_app node['gunicorn']['preload_app'] 
+  worker_processes node['gunicorn']['worker_processes']
+  server_hooks node['gunicorn']['server_hooks']
   action :create
 end
  

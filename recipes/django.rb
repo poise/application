@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app]
+app = node.run_state['current_app']
 
 include_recipe "python"
 
@@ -26,7 +26,7 @@ include_recipe "python"
 # default application recipe work it's mojo for you.
 ###
 
-node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
+node.default['apps'][app['id']][node.chef_environment]['run_migrations'] = false
 
 # the Django split-settings file name varies from project to project...+1 for standardization
 local_settings_full_path = app['local_settings_file'] || 'settings_local.py'
@@ -155,7 +155,7 @@ deploy_revision app['id'] do
   before_migrate do
     requirements_file = nil
     # look for requirements.txt files in common locations
-    if ::File.exists?(::File.join(release_path, "requirements", "#{node[:chef_environment]}.txt"))
+    if ::File.exists?(::File.join(release_path, "requirements", "#{node['chef_environment']}.txt"))
       requirements_file = ::File.join(release_path, "requirements", "#{node.chef_environment}.txt")
     elsif ::File.exists?(::File.join(release_path, "requirements.txt"))
       requirements_file = ::File.join(release_path, "requirements.txt")
@@ -175,7 +175,7 @@ deploy_revision app['id'] do
     local_settings_file_name => local_settings_full_path
   })
 
-  if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
+  if app['migrate'][node.chef_environment] && node['apps'][app['id']][node.chef_environment]['run_migrations']
     migrate true
     migration_command app['migration_command'] || "#{::File.join(ve.path, "bin", "python")} manage.py migrate"
   else

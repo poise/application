@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app] 
+app = node.run_state['current_app'] 
 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
@@ -34,9 +34,9 @@ web_app app['id'] do
   docroot "#{app['deploy_to']}/current/public"
   template "#{app['id']}.conf.erb"
   cookbook "#{app['id']}"
-  server_name "#{app['id']}.#{node[:domain]}"
+  server_name "#{app['id']}.#{node['domain']}"
   server_aliases server_aliases
-  log_dir node[:apache][:log_dir]
+  log_dir node['apache']['log_dir']
   rails_env node.chef_environment
 end
 

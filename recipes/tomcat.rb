@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app]
+app = node.run_state['current_app']
 
 include_recipe "tomcat"
 
