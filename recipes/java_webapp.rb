@@ -86,20 +86,18 @@ if app["database_master_role"]
     end
   end
 
-  # Assuming we have one...
-  if dbm
-    template "#{app['deploy_to']}/shared/#{app['id']}.xml" do
-      source "context.xml.erb"
-      owner app["owner"]
-      group app["group"]
-      mode "644"
-      variables(
-        :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
-        :app => app['id'],
-        :database => app['databases'][node.chef_environment],
-        :war => "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
-      )
-    end
+  template "#{app['deploy_to']}/shared/#{app['id']}.xml" do
+    source "context.xml.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "644"
+    variables(
+      :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
+      :app => app['id'],
+      :database => app['databases'][node.chef_environment],
+      :war => "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
+    )
+    only_if { dbm } # Assuming we have one...
   end
 end
 
