@@ -1,4 +1,4 @@
-#
+ #
 # Cookbook Name:: application
 # Recipe:: django
 #
@@ -155,7 +155,7 @@ deploy_revision app['id'] do
   before_migrate do
     requirements_file = nil
     # look for requirements.txt files in common locations
-    if ::File.exists?(::File.join(release_path, "requirements", "#{node[:chef_environment]}.txt"))
+    if ::File.exists?(::File.join(release_path, "requirements", "#{node.chef_environment}.txt"))
       requirements_file = ::File.join(release_path, "requirements", "#{node.chef_environment}.txt")
     elsif ::File.exists?(::File.join(release_path, "requirements.txt"))
       requirements_file = ::File.join(release_path, "requirements.txt")
