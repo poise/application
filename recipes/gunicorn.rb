@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+Chef::Log.warn "The application::gunicorn recipe is deprecated and will go away on Aug 1st. See the README for migration information."
+
 app = node.run_state[:current_app] 
 
 ve = resources(:python_virtualenv => app['id'])
