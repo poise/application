@@ -60,6 +60,7 @@ action :deploy do
 
     template "#{new_resource.path}/deploy-ssh-wrapper" do
       source "deploy-ssh-wrapper.erb"
+      cookbook "application"
       owner new_resource.owner
       group new_resource.group
       mode "0755"
