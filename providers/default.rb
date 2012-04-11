@@ -78,6 +78,7 @@ action :deploy do
   end
 
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
+    scm_provider new_resource.scm_provider
     revision new_resource.revision
     repository new_resource.repository
     user new_resource.owner
