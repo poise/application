@@ -112,6 +112,19 @@ class Chef
           end
         end
       end
+
+      def find_database_server(role)
+        dbm = find_matching_role(role)
+        Chef::Log.warn("No node with role #{role}") if role && !dbm
+
+        if respond_to?(:database) && database.has_key?('host')
+          database['host']
+        elsif dbm && dbm.attribute?('cloud')
+          dbm['cloud']['local_ipv4']
+        elsif dbm
+          dbm['ipaddress']
+        end
+      end
     end
   end
 
