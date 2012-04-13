@@ -82,7 +82,7 @@ def after_restart(arg=nil, &block)
   set_or_return(:after_restart, arg, :kind_of => [Proc, String])
 end
 
-def method_missing(name, &block)
+def method_missing(name, *args, &block)
   # Build the set of names to check for a valid resource
   lookup_path = ["application_#{name}"]
   run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
@@ -98,8 +98,13 @@ def method_missing(name, &block)
       Chef::Log.debug "Trying to load application resource #{resource_name} for #{name}"
       resource = super(resource_name.to_sym, self.name, &block)
       break
-    rescue NameError
-      next
+    rescue NameError => e
+      # Works on any MRI ruby
+      if e.name == resource_name.to_sym || e.inspect =~ /`#{resource_name}'/
+        next
+      else
+        raise e
+      end
     end
   end
   raise NameError, "No resource found for #{name}. Tried #{lookup_path.join(', ')}" unless resource
