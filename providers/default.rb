@@ -23,6 +23,7 @@ include Chef::Provider::ApplicationBase
 action :deploy do
   # Alias to a variable so I can use in sub-resources
   new_resource = @new_resource
+  app_provider = self
 
   new_resource.sub_resources.each do |resource|
     resource.application_provider self
@@ -112,43 +113,30 @@ action :deploy do
     symlinks new_resource.symlinks
     all_symlinks_before_migrate = [new_resource.symlink_before_migrate]+new_resource.sub_resources.map{|res| res.symlink_before_migrate}
     symlink_before_migrate all_symlinks_before_migrate.inject({}){|acc, val| acc.merge(val)}
-    # Yes, this needs to be refactored together
     before_migrate do
-      new_resource.sub_resources.each do |resource|
-        saved_run_context = resource.instance_variable_get :@run_context
-        resource.instance_variable_set :@run_context, @run_context
-        resource.run_action :before_migrate
-        resource.instance_variable_set :@run_context, saved_run_context
-      end
-      callback(:before_migrate, new_resource.before_migrate)
+      app_provider.send(:run_actions_with_context, :before_migrate, @run_context)
     end
     before_symlink do
-      new_resource.sub_resources.each do |resource|
-        saved_run_context = resource.instance_variable_get :@run_context
-        resource.instance_variable_set :@run_context, @run_context
-        resource.run_action :before_symlink
-        resource.instance_variable_set :@run_context, saved_run_context
-      end
-      callback(:before_symlink, new_resource.before_symlink)
+      app_provider.send(:run_actions_with_context, :before_symlink, @run_context)
     end
     before_restart do
-      new_resource.sub_resources.each do |resource|
-        saved_run_context = resource.instance_variable_get :@run_context
-        resource.instance_variable_set :@run_context, @run_context
-        resource.run_action :before_restart
-        resource.instance_variable_set :@run_context, saved_run_context
-      end
-      callback(:before_restart, new_resource.before_restart)
+      app_provider.send(:run_actions_with_context, :before_restart, @run_context)
     end
     after_restart do
-      new_resource.sub_resources.each do |resource|
-        saved_run_context = resource.instance_variable_get :@run_context
-        resource.instance_variable_set :@run_context, @run_context
-        resource.run_action :after_restart
-        resource.instance_variable_set :@run_context, saved_run_context
-      end
-      callback(:after_restart, new_resource.after_restart)
+      app_provider.send(:run_actions_with_context, :after_restart, @run_context)
     end
   end
 
+end
+
+protected
+
+def run_actions_with_context(action, context)
+  new_resource.sub_resources.each do |resource|
+    saved_run_context = resource.instance_variable_get :@run_context
+    resource.instance_variable_set :@run_context, context
+    resource.run_action action
+    resource.instance_variable_set :@run_context, saved_run_context
+  end
+  callback(action, new_resource.send(action))
 end
