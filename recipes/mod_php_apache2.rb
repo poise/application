@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+Chef::Log.warn "The application::mod_php_apache2 recipe is deprecated and will go away on Aug 1st. See the README for migration information."
+
 app = node.run_state[:current_app]
 
 node.default['apache']['listen_ports'] = [ "8080" ]
