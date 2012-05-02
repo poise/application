@@ -28,7 +28,7 @@ def initialize(*args)
   @sub_resources = []
 end
 
-actions :deploy, :remove
+actions :deploy
 
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :environment_name, :kind_of => String, :default => (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
