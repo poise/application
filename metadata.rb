@@ -15,7 +15,7 @@ recipe           "application::rails", "Deploys a Rails application specified in
 recipe           "application::tomcat", "Sets up the deployed Java application with Tomcat as the servlet container"
 recipe           "application::unicorn", "Sets up the deployed Rails application with Unicorn as the web server"
 
-%w{ runit unicorn apache2 passenger_apache2 tomcat python gunicorn apache2 php database }.each do |cb|
+%w{ runit unicorn apache2 passenger_apache2 tomcat python gunicorn php database }.each do |cb|
   depends cb
 end
 
