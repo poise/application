@@ -64,7 +64,8 @@ Configuration of framework-specific aspects of the application are performed by 
 
 # Actions
 
-- :deploy: deploy an application, including any necessary configuration, restarting the associated service if necessary.
+- :deploy: deploy an application, including any necessary configuration, restarting the associated service if necessary
+- :force_deploy: same as :deploy, but it will send a :force\_deploy action to the deploy resource, directing it to deploy the application even if the same revision is already deployed
 
 # Attribute Parameters
 
