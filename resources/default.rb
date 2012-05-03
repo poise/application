@@ -100,7 +100,7 @@ def method_missing(name, *args, &block)
       break
     rescue NameError => e
       # Works on any MRI ruby
-      if e.name == resource_name.to_sym || e.inspect =~ /`#{resource_name}'/
+      if e.name == resource_name.to_sym || e.inspect =~ /\b#{resource_name}\b/
         next
       else
         raise e
