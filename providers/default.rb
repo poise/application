@@ -21,15 +21,49 @@
 include Chef::Provider::ApplicationBase
 
 action :deploy do
-  # Alias to a variable so I can use in sub-resources
-  new_resource = @new_resource
-  app_provider = self
 
+  before_compile
+
+  before_deploy
+
+  run_deploy
+
+end
+
+action :force_deploy do
+
+  before_compile
+
+  before_deploy
+
+  run_deploy(true)
+
+end
+
+action :restart do
+
+  before_compile
+
+  run_actions_with_context(:before_restart, @run_context)
+
+  run_restart
+
+  run_actions_with_context(:after_restart, @run_context)
+
+  @new_resource.updated_by_last_action(true)
+
+end
+
+protected
+
+def before_compile
   new_resource.sub_resources.each do |resource|
     resource.application_provider self
     resource.run_action :before_compile
   end
+end
 
+def before_deploy
   new_resource.packages.each do |pkg,ver|
     package pkg do
       action :install
@@ -77,8 +111,15 @@ action :deploy do
       callback(:before_deploy, new_resource.before_deploy)
     end
   end
+end
+
+def run_deploy(force = false)
+  # Alias to a variable so I can use in sub-resources
+  new_resource = @new_resource
+  app_provider = self
 
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
+    action force ? :force_deploy : :deploy
     scm_provider new_resource.scm_provider
     revision new_resource.revision
     repository new_resource.repository
@@ -126,10 +167,7 @@ action :deploy do
       app_provider.send(:run_actions_with_context, :after_restart, @run_context)
     end
   end
-
 end
-
-protected
 
 def run_actions_with_context(action, context)
   new_resource.sub_resources.each do |resource|
