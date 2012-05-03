@@ -7,7 +7,7 @@ This cookbook is designed to be able to describe and deploy web applications. It
 * application\_nginx (nginx reverse proxy)
 * application\_php (PHP with mod\_php\_apache2)
 * application\_python (Django with Gunicorn)
-* application\_rails (Rails with Passenger or Unicorn)
+* application\_ruby (Rails with Passenger or Unicorn)
 
 Backward compatibility
 ----------------------
