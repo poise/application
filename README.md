@@ -73,7 +73,7 @@ Configuration of framework-specific aspects of the application are performed by 
 - packages: an Array or Hash of packages to be installed before starting the deployment
 - path: target path of the deployment; it will be created if it does not exist
 - owner: the user that shall own the target path
-- owner: the group that shall own the target path
+- group: the group that shall own the target path
 - strategy: the underlying LWRP that will be used to perform the deployment. The default is `:deploy_revision`, and it should never be necessary to change it
 - scm_provider: the provider class to use for the deployment. It defaults to `Chef::Provider::Git`, you can set it to `Chef::Provider::Subversion` to deploy from an SVN repository
 - repository: the URL of the repository the application should be checked out from
@@ -112,7 +112,6 @@ Sub-resources can set their own values for some attributes; if they do, they wil
 - migration_command: commands from the application and from sub-resources will be concatenated together joined with '&&' and run as a single shell command. The migration will only succeed if all the commands succeed
 - restart_command: commands from the application and from sub-resources will be evaluated in order
 - symlink\_before\_migrate: will be concatenated as a single array
-- symlink\_before\_migrate: will be merged
 - callbacks: sub-resources callbacks will be invoked first, followed by the application callbacks
 
 Usage
