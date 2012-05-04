@@ -42,6 +42,7 @@ attribute :repository, :kind_of => String
 attribute :environment, :kind_of => Hash, :default => {}
 attribute :deploy_key, :kind_of => [String, NilClass], :default => nil
 attribute :force, :kind_of => [TrueClass, FalseClass], :default => false
+attribute :rollback_on_error, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :purge_before_symlink, :kind_of => Array, :default => []
 attribute :create_dirs_before_symlink, :kind_of => Array, :default => []
 attribute :symlinks, :kind_of => Hash, :default => {}

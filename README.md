@@ -79,6 +79,7 @@ Configuration of framework-specific aspects of the application are performed by 
 - repository: the URL of the repository the application should be checked out from
 - revision: an identifier pointing to the revision that should be checkout out
 - deploy_key: the public key to use to access the repository via SSH
+- rollback\_on\_error: if true, exceptions during a deployment will be caught and a clean rollback to the previous version will be attempted; the exception will then be re-raised. Defaults to true; change it only if you know what you are doing
 - environment: a Hash of environment variables to set while running migrations
 - purge\_before\_symlink: an Array of paths (relative to the checkout) to remove before creating symlinks
 - create\_dirs\_before\_symlink: an Array paths (relative to the checkout) pointing to directories to create before creating symlinks
