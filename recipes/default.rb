@@ -21,10 +21,11 @@ search(:apps) do |app|
   (app["server_roles"] & node.run_list.roles).each do |app_role|
     app["type"][app_role].each do |thing|
       node.run_state[:current_app] = app
+      # Allow application recipes to run multiple times
+      node.run_state[:seen_recipes].delete("application::#{thing}")
       include_recipe "application::#{thing}"
     end
   end
 end
 
 node.run_state.delete(:current_app)
-
