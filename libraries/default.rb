@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+require "chef/mixin/from_file"
+
 class Chef
   class Resource
     # Globally update the blocklists to prevent infinite recursion in #to_json and similar
@@ -132,7 +134,7 @@ class Chef
     module ApplicationBase
 
       def self.included(klass)
-        klass.extend Chef::Mixin::FromFile
+        klass.send(:include, Chef::Mixin::FromFile)
       end
 
       def release_path
