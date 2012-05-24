@@ -117,3 +117,8 @@ def method_missing(name, *args, &block)
   @sub_resources << resource
   resource
 end
+
+def to_ary
+  nil
+end
+alias :to_a :to_ary
