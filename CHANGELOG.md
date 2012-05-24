@@ -1,3 +1,19 @@
+## v1.0.0:
+
+This release introduces the LWRP for application deployment, as well
+as other improvements. The recipes will be deprecated in August 2012
+as indicated by their warning messages and in the README.md.
+
+* [COOK-634] - Implement LWRP for application deployment
+* [COOK-1116] - use other SCMs than git
+* [COOK-1252] - add :force_deploy that maps to corresponding action of
+  deploy resource
+* [COOK-1253] - fix rollback error
+* [COOK-1312] - string callbacks fail with method not found
+* [COOK-1313] - implicit file based hooks aren't invoked
+* [COOK-1318] - Create to_ary method to resolve issue in resources()
+  lookup on "application[foo]" resources
+
 ## v0.99.14:
 
 * [COOK-1065] - use pip in virtualenv during deploy
