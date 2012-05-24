@@ -133,7 +133,7 @@ A recipe using this LWRP may look like this:
       group "app-group"
 
       repository "http://git.example.com/my-app.git"
-      branch "production"
+      revision "production"
 
       rails do
         # Rails-specific configuration
@@ -148,7 +148,7 @@ You can of course use any code necessary to determine the value of attributes:
 
     application "my_app" do
       repository "http://git.example.com/my-app.git"
-      branch node.chef_environment == "production" ? "production" : "develop"
+      revision node.chef_environment == "production" ? "production" : "develop"
     end
 
 Attributes from the application and from sub-resources are merged together:
