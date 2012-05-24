@@ -57,6 +57,7 @@ end
 protected
 
 def before_compile
+  new_resource.application_provider self
   new_resource.sub_resources.each do |resource|
     resource.application_provider self
     resource.run_action :before_compile
