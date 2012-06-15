@@ -172,6 +172,24 @@ Attributes from the application and from sub-resources are merged together:
     # restart_command #=> kill -1 `cat /var/run/one.pid` && touch /tmp/something
     # environment #=> LC_ALL=en_US FOO=baz
 
+Most databases have the concept of migrations (or you can just use your own):
+
+    application "my_app" do
+      path "/deploy/to/dir"
+      owner "app-user"
+      group "app-group"
+
+      repository "http://git.example.com/my-app.git"
+      revision "production"
+
+      php do
+        migrate true
+        migration_command "your-applications-migrate-command"
+      end
+    end
+
+This will run `your-applications-migrate-command`, with the current directory set to the directory of the current checkout.
+
 To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. Create a Ruby DSL role in your chef-repo, or create the role directly with knife.
 
     % knife role show my_app -Fj
