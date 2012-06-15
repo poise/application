@@ -51,6 +51,7 @@ attribute :migrate, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :migration_command, :kind_of => [String, NilClass], :default => nil
 attribute :restart_command, :kind_of => [String, NilClass], :default => nil
 attribute :packages, :kind_of => [Array, Hash], :default => []
+attribute :application_provider
 attr_reader :sub_resources
 
 # Callback fires before deploy is started.
@@ -81,6 +82,14 @@ end
 def after_restart(arg=nil, &block)
   arg ||= block
   set_or_return(:after_restart, arg, :kind_of => [Proc, String])
+end
+
+def release_path
+  application_provider.release_path
+end
+
+def shared_path
+  application_provider.shared_path
 end
 
 def method_missing(name, *args, &block)

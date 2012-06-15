@@ -71,10 +71,6 @@ class Chef
         end
       end
 
-      def release_path
-        application_provider.release_path
-      end
-
       class OptionsBlock
         include Chef::Resource::Application::OptionsCollector
       end
@@ -135,13 +131,20 @@ class Chef
         klass.extend Chef::Mixin::FromFile
       end
 
-      def release_path
-        if !@deploy_provider
-          #@deploy_provider = Chef::Platform.provider_for_resource(@run_context.resource_collection.find(:deploy_revision => @new_resource.id))
-          @deploy_provider = Chef::Platform.provider_for_resource(@deploy_resource)
-          @deploy_provider.load_current_resource
+      def deploy_provider
+        @deploy_provider ||= begin
+          deploy_provider = Chef::Platform.provider_for_resource(@deploy_resource)
+          deploy_provider.load_current_resource
+          deploy_provider
         end
-        @deploy_provider.release_path
+      end
+
+      def release_path
+        deploy_provider.release_path
+      end
+
+      def shared_path
+        @deploy_resource.shared_path
       end
 
       def callback(what, callback_code=nil)
