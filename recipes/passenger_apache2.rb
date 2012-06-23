@@ -35,7 +35,13 @@ end
 web_app app['id'] do
   docroot "#{app['deploy_to']}/current/public"
   template "#{app['id']}.conf.erb"
-  cookbook "#{app['id']}"
+
+  if cookbook app['cookbooks'] && app['cookbooks'][app['id']]
+    cookbook app['cookbooks'][app['id']]
+  else
+    cookbook app['id']
+  end
+
   server_name "#{app['id']}.#{node[:domain]}"
   server_aliases server_aliases
   log_dir node[:apache][:log_dir]
