@@ -40,7 +40,22 @@ attribute :scm_provider, :kind_of => [Class, String, Symbol]
 attribute :revision, :kind_of => String
 attribute :repository, :kind_of => String
 attribute :environment, :kind_of => Hash, :default => {}
+
+# svn deploy resource attributes
+attribute :svn_username, :kind_of => [String, NilClass], :default => nil
+attribute :svn_password, :kind_of => [String, NilClass], :default => nil
+attribute :svn_arguments, :kind_of => [String, NilClass], :default => nil
+attribute :svn_info_args, :kind_of => [String, NilClass], :default => nil
+
+# git deploy resource attributes
 attribute :deploy_key, :kind_of => [String, NilClass], :default => nil
+attribute :git_depth, :kind_of => [String, NilClass], :default => nil
+attribute :git_enable_submodules, :kind_of => [TrueClass, FalseClass], :default => false
+attribute :git_remote, :kind_of => [String, NilClass], :default => "origin"
+attribute :git_additional_remotes, :kind_of => Hash, :default => {}
+
+
+
 attribute :force, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :rollback_on_error, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :purge_before_symlink, :kind_of => Array, :default => []
