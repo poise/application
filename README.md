@@ -135,12 +135,15 @@ A recipe using this LWRP may look like this:
       repository "http://git.example.com/my-app.git"
       revision "production"
 
+      # Apply the rails LWRP from application_ruby
       rails do
-        # Rails-specific configuration
+        # Rails-specific configuration. See the README in the
+        # application_ruby cookbook for more information.
       end
 
+      # Apply the passenger_apache2 LWRP, also from application_ruby
       passenger_apache2 do
-        # Passenger-specific configuration
+        # Passenger-specific configuration.
       end
     end
 
