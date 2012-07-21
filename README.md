@@ -121,7 +121,7 @@ Usage
 To use the application cookbook we recommend creating a cookbook named after the application, e.g. `my_app`. In `metadata.rb` you should declare a dependency on this cookbook and any framework cookbook the application may need. For example a Rails application may include:
 
     depends "application"
-    depends "application_rails"
+    depends "application_ruby"
 
 The default recipe should describe your application using the `application` LWRP; you may also include additional recipes, for example to set up a database, queues, search engines and other components of your application.
 
