@@ -33,6 +33,8 @@ actions :deploy, :force_deploy
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :environment_name, :kind_of => String, :default => (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
 attribute :path, :kind_of => String
+# docroot: set when the http docroot is a subdir of the deployed app
+attribute :docroot, :kind_of => [String, NilClass], :default => nil
 attribute :owner, :kind_of => String
 attribute :group, :kind_of => String
 attribute :strategy, :kind_of => [String, Symbol], :default => :deploy_revision
