@@ -1,3 +1,12 @@
+## v1.0.2:
+
+* [COOK-1312] - string callbacks fail with method not found (really
+  included this time)
+* [COOK-1332] - add `release_path` and `shared_path` methods
+* [COOK-1333] - add example for running migrations
+* [COOK-1360] - fix minor typos in README
+* [COOK-1374] - use runit attributes in unicorn run script
+
 ## v1.0.0:
 
 This release introduces the LWRP for application deployment, as well
