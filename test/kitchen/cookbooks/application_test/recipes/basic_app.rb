@@ -26,4 +26,6 @@ application app_name do
   repository  "https://github.com/h5bp/html5-boilerplate.git"
   revision    "0b60046431d14b6615d53ae6d8bd0ac62ae3eb6f"  # v4.0.0 tag
   path        app_dir
+  owner       node['application_test']['owner']
+  group       node['application_test']['group']
 end

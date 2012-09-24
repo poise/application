@@ -6,6 +6,10 @@ Then /^the "?(.+?)"? directory should exist$/ do |dir_name|
   assert File.directory?(dir_name), "File.directory?(#{dir_name}) = #{File.directory?(dir_name)}"
 end
 
+Then /^it should be owned by (.+?) with group (.+?)$/ do |owner, group|
+  # TODO
+end
+
 Then /^"?(.+?)"? should be a symlink to "?(.+?)"$/ do |link, target|
   assert File.symlink?(link)
   assert_equal target, File.readlink(link)
