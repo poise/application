@@ -1,0 +1,4 @@
+cookbook "application" do
+  configuration "basic_app"
+  run_list_extras ['application_test::setup']
+end
