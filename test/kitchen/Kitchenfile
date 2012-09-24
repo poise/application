@@ -1,4 +1,5 @@
 cookbook "application" do
   configuration "basic_app"
+  lint false                  # XXX
   run_list_extras ['application_test::setup']
 end
