@@ -39,6 +39,7 @@ attribute :strategy, :kind_of => [String, Symbol], :default => :deploy_revision
 attribute :scm_provider, :kind_of => [Class, String, Symbol]
 attribute :revision, :kind_of => String
 attribute :repository, :kind_of => String
+attribute :enable_submodules, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :environment, :kind_of => Hash, :default => {}
 attribute :deploy_key, :kind_of => [String, NilClass], :default => nil
 attribute :force, :kind_of => [TrueClass, FalseClass], :default => false

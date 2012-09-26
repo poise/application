@@ -124,6 +124,7 @@ def run_deploy(force = false)
     scm_provider new_resource.scm_provider
     revision new_resource.revision
     repository new_resource.repository
+    enable_submodules new_resource.enable_submodules
     user new_resource.owner
     group new_resource.group
     deploy_to new_resource.path
