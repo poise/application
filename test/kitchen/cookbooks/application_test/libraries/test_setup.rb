@@ -26,3 +26,12 @@ def remove_app(app_name)
   FileUtils.rm_rf(app_dir)
   FileUtils.rm(rev_path) if File.exists?(rev_path)
 end
+
+def test_results(app_name)
+  tmp_dir = "/tmp/#{app_name}"
+
+  FileUtils.rm_rf(tmp_dir)
+  FileUtils.mkdir_p(tmp_dir)
+
+  tmp_dir
+end
