@@ -30,14 +30,19 @@ application app_name do
   owner       node['application_test']['owner']
   group       node['application_test']['group']
 
-  before_deploy do
-    resource = @new_resource
+  #
+  # All these hooks should be invoked with the same context
+  #
+  %w[before_deploy before_migrate before_symlink before_restart after_restart].each do |hook_name|
+    send(hook_name) do # invoke the hook by name
+      resource = @new_resource
 
-    template "#{tmp_dir}/before_deploy" do
-      source "hooks.erb"
-      mode 0644
-      variables(:release_path => resource.release_path,
-                :shared_path  => resource.shared_path)
+      template "#{tmp_dir}/#{hook_name}" do
+        source "hooks.erb"
+        mode 0644
+        variables(:release_path => resource.release_path,
+                  :shared_path  => resource.shared_path)
+      end
     end
   end
 end
