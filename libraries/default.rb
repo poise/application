@@ -135,7 +135,12 @@ class Chef
 
       def deploy_provider
         @deploy_provider ||= begin
-          deploy_provider = Chef::Platform.provider_for_resource(@deploy_resource)
+          version = Chef::Version.new(Chef::VERSION)
+          deploy_provider = if version.major > 10 || version.minor >= 14
+            Chef::Platform.provider_for_resource(@deploy_resource, :nothing)
+          else
+            Chef::Platform.provider_for_resource(@deploy_resource)
+          end
           deploy_provider.load_current_resource
           deploy_provider
         end
