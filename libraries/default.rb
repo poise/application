@@ -160,7 +160,7 @@ class Chef
         case callback_code
         when Proc
           Chef::Log.info "#{@new_resource} running callback #{what}"
-          recipe_eval(&callback_code)
+          safe_recipe_eval(&callback_code)
         when String
           callback_file = "#{release_path}/#{callback_code}"
           unless ::File.exist?(callback_file)
@@ -183,6 +183,20 @@ class Chef
         end
       end
 
+      def safe_recipe_eval(&callback_code)
+        version = Chef::Version.new(Chef::VERSION)
+        if version.major == 10 & version.minor < 12
+          recipe_eval(&callback_code)
+          return
+        end
+
+        saved_run_context = @new_resource.instance_variable_get :@run_context
+        @new_resource.instance_variable_set :@run_context, saved_run_context.dup
+        @run_context.resource_collection = Chef::ResourceCollection.new
+        instance_eval(&callback_code)
+        Chef::Runner.new(@run_context).converge
+        @new_resource.instance_variable_set :@run_context, saved_run_context
+      end
     end
   end
 end
