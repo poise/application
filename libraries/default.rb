@@ -178,7 +178,7 @@ class Chef
         if ::File.exist?(callback_file)
           Dir.chdir(release_path) do
             Chef::Log.info "#{@new_resource} running deploy hook #{callback_file}"
-            recipe_eval { from_file(callback_file) }
+            safe_recipe_eval { from_file(callback_file) }
           end
         end
       end
