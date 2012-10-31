@@ -184,18 +184,11 @@ class Chef
       end
 
       def safe_recipe_eval(&callback_code)
+        recipe_eval(&callback_code)
         version = Chef::Version.new(Chef::VERSION)
-        if version.major == 10 & version.minor < 12
-          recipe_eval(&callback_code)
-          return
+        if version.major >= 10 && version.minor >= 14
+          converge
         end
-
-        saved_run_context = @new_resource.instance_variable_get :@run_context
-        @new_resource.instance_variable_set :@run_context, saved_run_context.dup
-        @run_context.resource_collection = Chef::ResourceCollection.new
-        instance_eval(&callback_code)
-        Chef::Runner.new(@run_context).converge
-        @new_resource.instance_variable_set :@run_context, saved_run_context
       end
     end
   end
