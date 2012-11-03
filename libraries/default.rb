@@ -163,7 +163,7 @@ class Chef
           end
           run_callback_from_file(callback_file)
         when nil
-          nil
+          run_callback_from_file("#{release_path}/deploy/#{what}.rb")
         else
           raise RuntimeError, "You gave me a callback I don't know what to do with: #{callback_code.inspect}"
         end
