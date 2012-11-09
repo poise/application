@@ -89,6 +89,8 @@ Configuration of framework-specific aspects of the application are performed by 
 - migration_command: a command to run to migrate the application from the previous to the current state
 - restart_command: a command to run when restarting the application
 - environment_name: the name of a framework-specific "environment" (for example the Rails environment). By default it is the same as the Chef environment, unless it is `_default`, in which case it is set to `production`
+- enable_submodules: whether to enable git submodules in the deploy,
+  passed into the deploy resource.
 
 # Callback Attributes
 

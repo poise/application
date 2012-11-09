@@ -1,3 +1,7 @@
+## v1.0.4:
+
+* [COOK-1567] - Add git submodules to application cookbook
+
 ## v1.0.2:
 
 * [COOK-1312] - string callbacks fail with method not found (really
