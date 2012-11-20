@@ -129,6 +129,18 @@ def run_deploy(force = false)
     group new_resource.group
     deploy_to new_resource.path
     ssh_wrapper "#{new_resource.path}/deploy-ssh-wrapper" if new_resource.deploy_key
+    
+    svn_username new_resource.svn_username if new_resource.svn_username
+    svn_arguments new_resource.svn_arguments if new_resource.svn_arguments
+    svn_password new_resource.svn_password if new_resource.svn_password
+    svn_info_args new_resource.svn_info_args if new_resource.svn_info_args
+    
+    
+    depth new_resource.git_depth if new_resource.git_depth
+    enable_submodules new_resource.git_enable_submodules if new_resource.git_enable_submodules
+    remote new_resource.git_remote if new_resource.git_remote
+    additional_remotes new_resource.git_additional_remotes if new_resource.git_additional_remotes
+
     shallow_clone true
     rollback_on_error new_resource.rollback_on_error
     all_environments = ([new_resource.environment]+new_resource.sub_resources.map{|res| res.environment}).inject({}){|acc, val| acc.merge(val)}
