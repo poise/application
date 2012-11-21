@@ -185,10 +185,7 @@ class Chef
 
       def safe_recipe_eval(&callback_code)
         recipe_eval(&callback_code)
-        version = Chef::Version.new(Chef::VERSION)
-        if version.major >= 10 && version.minor >= 14
-          converge
-        end
+        converge if respond_to?(:converge)
       end
     end
   end
