@@ -1,3 +1,13 @@
+## v2.0.0:
+
+This release is incompatible with previous releases (hence major
+version change). The recipes used in older versions are deprecated and
+completely removed. See README.md for further detail.
+
+* [COOK-1673] - Deploy_revision in the application cookbook gives an
+  argument error
+* [COOK-1820] - Application cookbook: remove deprecated recipes
+
 ## v1.0.4:
 
 * [COOK-1567] - Add git submodules to application cookbook
