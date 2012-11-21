@@ -140,7 +140,12 @@ def run_deploy(force = false)
       ([new_resource]+new_resource.sub_resources).each do |res|
         cmd = res.restart_command
         if cmd.is_a? Proc
-          provider = Chef::Platform.provider_for_resource(res)
+          version = Chef::Version.new(Chef::VERSION)
+          provider = if version.major > 10 || version.minor >= 14
+            Chef::Platform.provider_for_resource(res, :nothing)
+          else
+            Chef::Platform.provider_for_resource(res)
+          end
           provider.load_current_resource
           provider.instance_eval(&cmd)
         elsif cmd && !cmd.empty?
