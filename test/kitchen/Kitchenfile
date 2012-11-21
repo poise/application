@@ -1,0 +1,7 @@
+cookbook "application" do
+  configuration "basic_app"
+  configuration "block_callbacks"
+  configuration "file_callbacks"
+  lint false                  # XXX
+  run_list_extras ['application_test::setup']
+end
