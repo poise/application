@@ -157,9 +157,10 @@ def run_deploy(force = false)
         end
       end
     end
-    purge_before_symlink new_resource.purge_before_symlink
-    create_dirs_before_symlink new_resource.create_dirs_before_symlink
-    symlinks new_resource.symlinks
+    purge_before_symlink (new_resource.purge_before_symlink + new_resource.sub_resources.map(&:purge_before_symlink)).flatten
+    create_dirs_before_symlink (new_resource.create_dirs_before_symlink + new_resource.sub_resources.map(&:create_dirs_before_symlink)).flatten
+    all_symlinks = [new_resource.symlinks]+new_resource.sub_resources.map{|res| res.symlinks}
+    symlinks all_symlinks.inject({}){|acc, val| acc.merge(val)}
     all_symlinks_before_migrate = [new_resource.symlink_before_migrate]+new_resource.sub_resources.map{|res| res.symlink_before_migrate}
     symlink_before_migrate all_symlinks_before_migrate.inject({}){|acc, val| acc.merge(val)}
     before_migrate do
