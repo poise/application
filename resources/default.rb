@@ -128,6 +128,35 @@ def method_missing(name, *args, &block)
   resource
 end
 
+def respond_to?(*args)
+  if(super)
+    true
+  else
+    name = args.first.to_s
+    # Build the set of names to check for a valid resource
+    lookup_path = ["application_#{name}"]
+    run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
+      if cookbook_name.start_with?("application_")
+        lookup_path << "#{cookbook_name}_#{name}"
+      end
+    end
+    lookup_path << name
+    found = false
+    # Try to find our resource
+    lookup_path.each do |resource_name|
+      begin
+        Chef::Log.debug "Looking for application resource #{resource_name} for #{name}"
+        Chef::Resource.resource_for_node(resource_name.to_sym, node)
+        found = true
+        break
+      rescue NameError => e
+        # Keep calm and carry on
+      end
+    end
+    found
+  end
+end
+
 def to_ary
   nil
 end
