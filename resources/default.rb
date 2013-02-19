@@ -33,7 +33,7 @@ actions :deploy, :force_deploy
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :environment_name, :kind_of => String, :default => (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
 attribute :path, :kind_of => String
-attribute :root, :kind_of => String, :default => "/"
+attribute :app_root, :kind_of => String, :default => "/"
 attribute :owner, :kind_of => String
 attribute :group, :kind_of => String
 attribute :strategy, :kind_of => [String, Symbol], :default => :deploy_revision
