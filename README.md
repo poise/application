@@ -70,6 +70,8 @@ more documentation.
   starting the deployment
 - `path`: target path of the deployment; it will be created if it does
   not exist
+- `app_root`: path where the application can be found in relative from
+  path. Default value is "/".
 - `owner`: the user that shall own the target path
 - `group`: the group that shall own the target path
 - `strategy`: the underlying LWRP that will be used to perform the
