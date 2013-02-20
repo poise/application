@@ -128,32 +128,40 @@ def method_missing(name, *args, &block)
   resource
 end
 
-def respond_to?(*args)
-  if(super)
-    true
-  else
-    name = args.first.to_s
-    # Build the set of names to check for a valid resource
-    lookup_path = ["application_#{name}"]
-    run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
-      if cookbook_name.start_with?("application_")
-        lookup_path << "#{cookbook_name}_#{name}"
-      end
+def do_i_respond_to?(*args)
+  name = args.first.to_s
+  # Build the set of names to check for a valid resource
+  lookup_path = ["application_#{name}"]
+  run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
+    if cookbook_name.start_with?("application_")
+      lookup_path << "#{cookbook_name}_#{name}"
     end
-    lookup_path << name
-    found = false
-    # Try to find our resource
-    lookup_path.each do |resource_name|
-      begin
-        Chef::Log.debug "Looking for application resource #{resource_name} for #{name}"
-        Chef::Resource.resource_for_node(resource_name.to_sym, node)
-        found = true
-        break
-      rescue NameError => e
-        # Keep calm and carry on
-      end
+  end
+  lookup_path << name
+  found = false
+  # Try to find our resource
+  lookup_path.each do |resource_name|
+    begin
+      Chef::Log.debug "Looking for application resource #{resource_name} for #{name}"
+      Chef::Resource.resource_for_node(resource_name.to_sym, node)
+      found = true
+      break
+    rescue NameError => e
+      # Keep calm and carry on
     end
-    found
+  end
+  found
+end
+
+# If we are using a current version of ruby, use respond_to_missing?
+# instead of respond_to? so we provide proper behavior
+if(Gem::Version.new('1.9.1') >= Gem::Version.new(RUBY_VERSION))
+  def respond_to_missing?(*args)
+    super || do_i_respond_to?(*args)
+  end
+else
+  def respond_to?(*args)
+    super || do_i_respond_to?(*args)
   end
 end
 
