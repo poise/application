@@ -155,7 +155,7 @@ end
 
 # If we are using a current version of ruby, use respond_to_missing?
 # instead of respond_to? so we provide proper behavior
-if(Gem::Version.new('1.9.1') >= Gem::Version.new(RUBY_VERSION))
+if(Gem::Version.new('1.9.1') >= Gem::Version.new(RUBY_VERSION.dup))
   def respond_to_missing?(*args)
     super || do_i_respond_to?(*args)
   end
