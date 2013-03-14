@@ -129,7 +129,7 @@ def run_deploy(force = false)
     group new_resource.group
     deploy_to new_resource.path
     ssh_wrapper "#{new_resource.path}/deploy-ssh-wrapper" if new_resource.deploy_key
-    shallow_clone true
+    shallow_clone new_resource.shallow_clone
     rollback_on_error new_resource.rollback_on_error
     all_environments = ([new_resource.environment]+new_resource.sub_resources.map{|res| res.environment}).inject({}){|acc, val| acc.merge(val)}
     environment all_environments
