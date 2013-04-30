@@ -1,3 +1,17 @@
+## v2.0.2:
+
+### Bug
+
+- [COOK-2537]: Provide proper `respond_to` behavior when using
+  `method_missing`
+- [COOK-2713]: application resource should Allow sub-resource
+  attributes to propogate up
+
+### Improvement
+
+- [COOK-2597]: Allow customization for shallow_clone when doing a git
+  deploy
+
 ## v2.0.0:
 
 This release is incompatible with previous releases (hence major
