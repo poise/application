@@ -51,10 +51,14 @@ attribute :symlinks, :kind_of => Hash, :default => {}
 attribute :symlink_before_migrate, :kind_of => Hash, :default => {}
 attribute :migrate, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :migration_command, :kind_of => [String, NilClass], :default => nil
-attribute :restart_command, :kind_of => [String, NilClass], :default => nil
 attribute :packages, :kind_of => [Array, Hash], :default => []
 attribute :application_provider
 attr_reader :sub_resources
+
+def restart_command(arg=nil, &block)
+  arg ||= block
+  set_or_return(:restart_command, arg, :kind_of => [Proc, String])
+end
 
 # Callback fires before deploy is started.
 def before_deploy(arg=nil, &block)
