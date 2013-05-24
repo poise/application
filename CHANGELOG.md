@@ -1,3 +1,10 @@
+## v2.0.4:
+
+### Bug
+
+- [COOK-2812]: application cookbook doesn't allow to specify a block
+  as `restart_command`
+
 ## v2.0.2:
 
 ### Bug
