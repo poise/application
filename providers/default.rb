@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-include Chef::Provider::ApplicationBase
+include ApplicationCookbook::ProviderBase
 
 action :deploy do
 
