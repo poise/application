@@ -4,5 +4,5 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Deploys and configures a variety of applications"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "3.0.0"
+version          "3.0.1"
 recipe           "application", "Empty placeholder recipe, use the LWRPs, see README.md."
