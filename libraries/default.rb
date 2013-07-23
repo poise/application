@@ -24,8 +24,10 @@ class Chef
   class Resource
     # Monkey-Patch the blacklists to prevent infinite recursion in #to_json and similar
     # (this is global state,thus the set-union operator to change it idempotently + to not leak)
-    FORBIDDEN_IVARS |= [:@application, :@application_provider]
-    HIDDEN_IVARS |= [:@application, :@application_provider]
+    [ :@application, :@application_provider ].each do |ivar|
+      FORBIDDEN_IVARS << ivar unless FORBIDDEN_IVARS.include?(ivar)
+      HIDDEN_IVARS << ivar unless HIDDEN_IVARS.include?(ivar)
+    end
   end
 end
 
