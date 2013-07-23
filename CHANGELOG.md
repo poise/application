@@ -1,3 +1,9 @@
+## v3.0.0:
+
+### Bug
+
+- [COOK-3306]: Multiple Memory Leaks in Application Cookbook
+
 ## v2.0.4:
 
 ### Bug
@@ -16,7 +22,7 @@
 
 ### Improvement
 
-- [COOK-2597]: Allow customization for shallow_clone when doing a git
+- [COOK-2597]: Allow customization for `shallow_clone` when doing a git
   deploy
 
 ## v2.0.0:
@@ -25,7 +31,7 @@ This release is incompatible with previous releases (hence major
 version change). The recipes used in older versions are deprecated and
 completely removed. See README.md for further detail.
 
-* [COOK-1673] - Deploy_revision in the application cookbook gives an
+* [COOK-1673] - `deploy_revision` in the application cookbook gives an
   argument error
 * [COOK-1820] - Application cookbook: remove deprecated recipes
 
@@ -50,12 +56,12 @@ as indicated by their warning messages and in the README.md.
 
 * [COOK-634] - Implement LWRP for application deployment
 * [COOK-1116] - use other SCMs than git
-* [COOK-1252] - add :force_deploy that maps to corresponding action of
+* [COOK-1252] - add `:force_deploy` that maps to corresponding action of
   deploy resource
 * [COOK-1253] - fix rollback error
 * [COOK-1312] - string callbacks fail with method not found
 * [COOK-1313] - implicit file based hooks aren't invoked
-* [COOK-1318] - Create to_ary method to resolve issue in resources()
+* [COOK-1318] - Create `to_ary` method to resolve issue in resources()
   lookup on "application[foo]" resources
 
 ## v0.99.14:
@@ -68,7 +74,7 @@ as indicated by their warning messages and in the README.md.
 
 ## v0.99.11:
 
-* make the _default chef_environment look like production rails env
+* make the `_default` `chef_environment` look like production rails env
 
 ## v0.99.10:
 
