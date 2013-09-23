@@ -26,7 +26,7 @@ See [COOK-1820](http://tickets.opscode.com/browse/COOK-1820).
 Requirements
 ============
 
-Chef 0.10.0 or higher required (for Chef environment use).
+Chef 0.11.0 or higher required (for Chef environment use).
 
 The previous dependencies have been moved out to the
 application-stack-specific cookbooks, and this cookbook has no
