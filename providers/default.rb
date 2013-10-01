@@ -127,6 +127,7 @@ def run_deploy(force = false)
     enable_submodules new_resource.enable_submodules
     user new_resource.owner
     group new_resource.group
+    keep_releases new_resource.keep_releases
     deploy_to new_resource.path
     ssh_wrapper "#{new_resource.path}/deploy-ssh-wrapper" if new_resource.deploy_key
     shallow_clone new_resource.shallow_clone
