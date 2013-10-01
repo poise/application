@@ -3,6 +3,14 @@ application Cookbook CHANGELOG
 This file is used to list changes made in each version of the application cookbook.
 
 
+v4.0.0
+------
+### Breaking
+- Removes compatability with Chef 10
+
+### Improvement
+- **[COOK-3564](https://tickets.opscode.com/browse/COOK-3564)** - Replace calls to `Chef::Mixin::RecipeDefinitionDSLCore`
+
 v3.0.0
 ------
 ### Bug
