@@ -137,18 +137,15 @@ class ApplicationCookbook
     end
 
     def deploy_provider
-      @deploy_provider ||=
-        begin
-          version = Chef::Version.new(Chef::VERSION)
-          deploy_provider =
-            if version.major > 10 || version.minor >= 14
-              Chef::Platform.provider_for_resource(@deploy_resource, :nothing)
-            else
-              Chef::Platform.provider_for_resource(@deploy_resource)
-            end
-          deploy_provider.load_current_resource
-          deploy_provider
-        end
+      @deploy_provider ||= begin
+        provider = if Chef::Platform.method(:provider_for_resource).arity == 2
+                     Chef::Platform.provider_for_resource(@deploy_resource, :nothing)
+                   else
+                     Chef::Platform.provider_for_resource(@deploy_resource)
+                   end
+        provider.load_current_resource
+        provider
+      end
     end
 
     def release_path
