@@ -3,6 +3,12 @@ application Cookbook CHANGELOG
 This file is used to list changes made in each version of the application cookbook.
 
 
+v4.1.0
+------
+### Bug
+- [COOK-3343] - Can't parse release candidate version number
+
+
 v4.0.0
 ------
 ### Breaking
