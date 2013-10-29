@@ -20,7 +20,7 @@
 
 require 'weakref'
 
-include Chef::DSL::IncludeRecipe
+include Chef::DSL::Recipe
 
 def initialize(*args)
   super
