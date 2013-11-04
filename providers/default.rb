@@ -117,6 +117,7 @@ end
 def run_deploy(force = false)
   # Alias to a variable so I can use in sub-resources
   new_resource = @new_resource
+  # Also alias to variable so it can be used in sub-resources
   app_provider = self
 
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
@@ -140,7 +141,7 @@ def run_deploy(force = false)
       ([new_resource]+new_resource.sub_resources).each do |res|
         cmd = res.restart_command
         if cmd.is_a? Proc
-          deploy_provider.instance_eval(&cmd) # @see libraries/default.rb
+          app_provider.deploy_provider.instance_eval(&cmd) # @see libraries/default.rb
         elsif cmd && !cmd.empty?
           execute cmd do
             user new_resource.owner
