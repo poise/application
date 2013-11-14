@@ -45,6 +45,7 @@ Configuration of framework-specific aspects of the application are performed by 
 - `group`: the group that shall own the target path
 - `strategy`: the underlying LWRP that will be used to perform the deployment. The default is `:deploy_revision`, and it should never be necessary to change it
 - `scm_provider`: the provider class to use for the deployment. It defaults to `Chef::Provider::Git`, you can set it to `Chef::Provider::Subversion` to deploy from an SVN repository
+- `keep_releases`: The number of releases for which a backup is kept.
 - `repository`: the URL of the repository the application should be checked out from
 - `revision`: an identifier pointing to the revision that should be checked out
 - `deploy_key`: the private key to use to access the repository via SSH
