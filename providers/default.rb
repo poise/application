@@ -123,6 +123,7 @@ def run_deploy(force = false)
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
     action force ? :force_deploy : :deploy
     scm_provider new_resource.scm_provider
+    keep_releases new_resource.keep_releases
     revision new_resource.revision
     repository new_resource.repository
     enable_submodules new_resource.enable_submodules
