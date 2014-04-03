@@ -42,6 +42,7 @@ attribute :repository, :kind_of => String
 attribute :enable_submodules, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :environment, :kind_of => Hash, :default => {}
 attribute :deploy_key, :kind_of => [String, NilClass], :default => nil
+attribute :strict_ssh, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :shallow_clone, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :force, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :rollback_on_error, :kind_of => [TrueClass, FalseClass], :default => true

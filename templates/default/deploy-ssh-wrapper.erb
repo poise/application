@@ -5,4 +5,4 @@
 #
 # Rendered by Chef - local changes will be replaced
 
-/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "<%= @deploy_to %>/id_deploy" $@
+/usr/bin/env ssh <% unless @strict_ssh %>-o "StrictHostKeyChecking=no" <% end %>-i "<%= @deploy_to %>/id_deploy" $@
