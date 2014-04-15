@@ -180,6 +180,19 @@ run_list([
 ])
 ```
 
+## Tests
+
+### ChefSpec
+Custom chefspec matchers are available for you to test your recipes.
+
+```
+describe 'my_cookbook::my_recipe' do
+	let(:chef_run) { ChefSpec::Runner.new.converge described_recipe }
+	it { expect(chef_run).to deploy_application 'where-is-love' }
+	it { expect(chef_run).to force_deploy_application 'no-really-where-is-love' }
+end
+
+```
 
 License and Authors
 -------------------
