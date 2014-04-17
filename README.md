@@ -43,6 +43,7 @@ Configuration of framework-specific aspects of the application are performed by 
 - `path`: target path of the deployment; it will be created if it does not exist
 - `owner`: the user that shall own the target path
 - `group`: the group that shall own the target path
+- `keep_releases`: count of keep releases
 - `strategy`: the underlying LWRP that will be used to perform the deployment. The default is `:deploy_revision`, and it should never be necessary to change it
 - `scm_provider`: the provider class to use for the deployment. It defaults to `Chef::Provider::Git`, you can set it to `Chef::Provider::Subversion` to deploy from an SVN repository
 - `repository`: the URL of the repository the application should be checked out from

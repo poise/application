@@ -35,6 +35,7 @@ attribute :environment_name, :kind_of => String, :default => (node.chef_environm
 attribute :path, :kind_of => String
 attribute :owner, :kind_of => String
 attribute :group, :kind_of => String
+attribute :keep_releases, :kind_of => Integer, :default => 5
 attribute :strategy, :kind_of => [String, Symbol], :default => :deploy_revision
 attribute :scm_provider, :kind_of => [Class, String, Symbol]
 attribute :revision, :kind_of => String
