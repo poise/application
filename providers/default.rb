@@ -100,7 +100,7 @@ def before_deploy
       owner new_resource.owner
       group new_resource.group
       mode "0755"
-      variables :id => new_resource.name, :deploy_to => new_resource.path
+      variables :id => new_resource.name, :deploy_to => new_resource.path, :strict_ssh => new_resource.strict_ssh
     end
   end
 
