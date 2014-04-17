@@ -87,8 +87,15 @@ def before_deploy
   end
 
   if new_resource.deploy_key
+    
+    if ::File.exists?(new_resource.deploy_key)
+      deploy_key = open(new_resource.deploy_key, &:read)
+    else
+      deploy_key = new_resource.deploy_key
+    end
+    
     file "#{new_resource.path}/id_deploy" do
-      content new_resource.deploy_key
+      content deploy_key
       owner new_resource.owner
       group new_resource.group
       mode '0600'
