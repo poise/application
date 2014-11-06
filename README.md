@@ -7,7 +7,11 @@ This cookbook is designed to be able to describe and deploy web applications. It
 - [application_php](https://github.com/opscode-cookbooks/application_php) (PHP with `mod_php_apache2`)
 - [application_python](https://github.com/opscode-cookbooks/application_python) (Django with Gunicorn)
 - [application_ruby](https://github.com/opscode-cookbooks/application_ruby) (Rails with Passenger or Unicorn)
-
+- [application_nodejs](https://github.com/conradev/application_nodejs) (Node.js)
+- [application_buildpack](https://github.com/256dpi/application_buildpack) (Heroku Buildpacks)
+- [application_just_nodejs](https://github.com/256dpi/application_just_nodejs) (Simple node.js, use with applicatio_procfile)
+- [application_just_ruby](https://github.com/256dpi/application_just_ruby) (Simple ruby, use with applicatio_procfile)
+- [application_procfile](https://github.com/Granicus/chef-application_procfile) (Monit procfile runner)
 
 Backwards Compatibility
 -----------------------
