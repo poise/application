@@ -2,6 +2,11 @@ application Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the application cookbook.
 
+v4.2.0
+------
+### Feature
+- Allow rolling back a deploy.
+
 
 v4.1.4
 ------

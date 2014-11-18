@@ -26,7 +26,7 @@ action :deploy do
 
   before_deploy
 
-  run_deploy
+  run_deploy(:deploy)
 
 end
 
@@ -36,7 +36,17 @@ action :force_deploy do
 
   before_deploy
 
-  run_deploy(true)
+  run_deploy(:force_deploy)
+
+end
+
+action :rollback do
+
+  before_compile
+
+  before_deploy
+
+  run_deploy(:rollback)
 
 end
 
@@ -121,14 +131,14 @@ def before_deploy
   end
 end
 
-def run_deploy(force = false)
+def run_deploy(deploy_action = :deploy)
   # Alias to a variable so I can use in sub-resources
   new_resource = @new_resource
   # Also alias to variable so it can be used in sub-resources
   app_provider = self
 
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
-    action force ? :force_deploy : :deploy
+    action deploy_action.to_sym
     scm_provider new_resource.scm_provider
     revision new_resource.revision
     repository new_resource.repository
