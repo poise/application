@@ -2,3 +2,5 @@
 .cache
 .kitchen
 bin
+.docker.*
+.kitchen.local.yml
