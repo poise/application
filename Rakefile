@@ -14,9 +14,24 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
-extension 'halite'
+task :default => [:test]
 
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
+# build/upload tasks
+require 'bundler/gem_tasks'
+
+# Spec runner
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = [].tap do |a|
+    a << '--color'
+    a << '--format Fuubar'
+    a << '--backtrace '
+    a << "--default-path test"
+    a << '-I test/spec'
+  end.join(' ')
 end
+
+task :test => [:spec]
+
+# Halite helper tasks
+require 'halite/rake_tasks'

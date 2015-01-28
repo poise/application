@@ -14,9 +14,6 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
-extension 'halite'
-
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
+module PoiseApplication
+  VERSION = '5.0.0'
 end

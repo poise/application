@@ -15,14 +15,13 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org'
+source 'https://rubygems.org/'
 
-gem 'test-kitchen', github: 'test-kitchen/test-kitchen' # For mixlib-shellout conflict
-gem 'berkshelf', '~> 3.0'
-gem 'chef', '~> 12.0'
-gem 'kitchen-vagrant'
-gem 'vagrant-wrapper'
-gem 'foodcritic', '>= 3.0.3'
-gem 'kitchen-docker'
-gem 'travis'
-gem 'kitchen-sync'
+gemspec
+
+gem 'halite', path: '../halite'
+gem 'poise', path: '../poise'
+
+group :travis do
+  gem 'codeclimate-test-reporter'
+end
