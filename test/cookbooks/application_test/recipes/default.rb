@@ -14,10 +14,9 @@
 # limitations under the License.
 #
 
-include_recipe 'git'
-
-application 'test_repo' do
-  path '/home/app'
-  repository 'https://github.com/poise/test_repo.git'
-  revision 'master'
+application '/home/app' do
+  git do
+    repository 'https://github.com/poise/test_repo.git'
+    revision 'master'
+  end
 end

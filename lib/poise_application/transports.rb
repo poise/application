@@ -14,7 +14,25 @@
 # limitations under the License.
 #
 
-require 'poise_application/resources/application'
-
 module PoiseApplication
+  module Transports
+    module ClassMethods
+      def transport_helper(name)
+        define_method(name) do |&block|
+          method_missing(name, '', &block).tap do |r|
+            subresources.insert(r)
+          end
+        end
+      end
+
+      def included(klass)
+        super
+        klass.extend ClassMethods
+      end
+    end
+
+    extend ClassMethods
+
+    transport_helper(:git)
+  end
 end

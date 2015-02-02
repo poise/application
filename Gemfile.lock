@@ -3,6 +3,7 @@ PATH
   specs:
     poise-application (5.0.0)
       halite (~> 1.0.0.rc.1)
+      poise (~> 1.1.0)
 
 PATH
   remote: ../halite

@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w{lib}
 
   spec.add_dependency 'halite', '~> 1.0.0.rc.1'
+  spec.add_dependency 'poise', '~> 1.1.0'
 
   spec.add_development_dependency 'rake', '~> 10.4.2'
   spec.add_development_dependency 'bundler', '~> 1.6'

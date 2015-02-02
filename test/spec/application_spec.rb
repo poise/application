@@ -14,7 +14,19 @@
 # limitations under the License.
 #
 
-require 'poise_application/resources/application'
+require 'spec_helper'
 
-module PoiseApplication
+describe Chef::Resource::Application do
+  step_into(:application)
+  recipe do
+    application '/home/app' do
+      git do
+        repository 'https://github.com/poise/test_repo.git'
+        revision 'master'
+      end
+    end
+  end
+
+  it { is_expected.to deploy_application('/home/app') }
+  it { is_expected.to sync_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master') }
 end
