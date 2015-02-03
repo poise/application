@@ -19,4 +19,5 @@ extension 'halite'
 
 group :test do
   cookbook 'application_test', path: 'test/cookbooks/application_test'
+  cookbook 'apt'
 end

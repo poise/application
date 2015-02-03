@@ -14,6 +14,6 @@
 # limitations under the License.
 #
 
-include ApplicationCookbook::ResourceBase
+#include ApplicationCookbook::ResourceBase
 
 attribute :content

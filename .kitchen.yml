@@ -9,6 +9,8 @@ chef_versions:
 
 platforms:
 - name: ubuntu-12.04
+  run_list:
+  - recipe[apt]
 
 suites:
 - name: default
@@ -17,3 +19,6 @@ suites:
 - name: plugin
   run_list:
   - recipe[application_test::plugin]
+- name: private
+  run_list:
+  - recipe[application_test::private]
