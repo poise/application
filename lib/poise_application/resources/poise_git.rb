@@ -41,8 +41,12 @@ class Chef
       @ssh_wrapper_path ||= ::File.expand_path("~#{user}/ssh_wrapper_#{Zlib.crc32(name)}")
     end
 
+    def deploy_key_is_local?
+      deploy_key && deploy_key[0] == '/'
+    end
+
     def deploy_key_path
-      @deploy_key_path ||= if deploy_key && deploy_key[0] == '/'
+      @deploy_key_path ||= if deploy_key_is_local?
         deploy_key
       else
         ::File.expand_path("~#{user}/id_deploy_#{Zlib.crc32(name)}")
@@ -58,30 +62,33 @@ class Chef
     end
 
     def load_current_resource
-      write_deploy_key if new_resource.deploy_key
+      notifying_block do
+        write_deploy_key
+        write_ssh_wrapper
+      end if new_resource.deploy_key
       super
     end
 
     def write_deploy_key
-      notifying_block do
-        # Check if we have a local path or some actual content
-        if new_resource.deploy_key[0] != '/'
-          file new_resource.deploy_key_path do
-            owner new_resource.user
-            group new_resource.group
-            mode '600'
-            content new_resource.deploy_key
-          end
-        end
-
-        # Write out the GIT_SSH script, it should already be enabled above
-        file new_resource.ssh_wrapper_path do
-          owner new_resource.user
-          group new_resource.group
-          mode '700'
-          content %Q{#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{new_resource.deploy_key_path}" $@\n}
-        end
+      # Check if we have a local path or some actual content
+      return if new_resource.deploy_key_is_local?
+      file new_resource.deploy_key_path do
+        owner new_resource.user
+        group new_resource.group
+        mode '600'
+        content new_resource.deploy_key
       end
     end
+
+    def write_ssh_wrapper
+      # Write out the GIT_SSH script, it should already be enabled above
+      file new_resource.ssh_wrapper_path do
+        owner new_resource.user
+        group new_resource.group
+        mode '700'
+        content %Q{#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{new_resource.deploy_key_path}" $@\n}
+      end
+    end
+
   end
 end
