@@ -38,7 +38,15 @@ class Chef
     end
 
     def ssh_wrapper_path
-      ::File.expand_path("~#{user}/ssh_wrapper_#{Zlib.crc32(name)}")
+      @ssh_wrapper_path ||= ::File.expand_path("~#{user}/ssh_wrapper_#{Zlib.crc32(name)}")
+    end
+
+    def deploy_key_path
+      @deploy_key_path ||= if deploy_key && deploy_key[0] == '/'
+        deploy_key
+      else
+        ::File.expand_path("~#{user}/id_deploy_#{Zlib.crc32(name)}")
+      end
     end
   end
 
@@ -57,15 +65,13 @@ class Chef
     def write_deploy_key
       notifying_block do
         # Check if we have a local path or some actual content
-        key_path = if new_resource.deploy_key[0] == '/'
-          new_resource.deploy_key
-        else
-          file ::File.expand_path("~#{new_resource.user}/id_deploy_#{Zlib.crc32(new_resource.name)}") do
+        if new_resource.deploy_key[0] != '/'
+          file new_resource.deploy_key_path do
             owner new_resource.user
             group new_resource.group
             mode '600'
             content new_resource.deploy_key
-          end.path
+          end
         end
 
         # Write out the GIT_SSH script, it should already be enabled above
@@ -73,7 +79,7 @@ class Chef
           owner new_resource.user
           group new_resource.group
           mode '700'
-          content %Q{#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{key_path}" $@\n}
+          content %Q{#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{new_resource.deploy_key_path}" $@\n}
         end
       end
     end
