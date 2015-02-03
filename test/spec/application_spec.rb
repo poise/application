@@ -27,6 +27,10 @@ describe Chef::Resource::Application do
     end
   end
 
+  def sync_poise_git(name)
+    ChefSpec::Matchers::ResourceMatcher.new(:poise_git, :sync, name)
+  end
+
   it { is_expected.to deploy_application('/home/app') }
-  it { is_expected.to sync_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master') }
+  it { is_expected.to sync_poise_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master') }
 end

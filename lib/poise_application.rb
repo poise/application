@@ -15,6 +15,7 @@
 #
 
 require 'poise_application/resources/application'
+require 'poise_application/resources/poise_git'
 
 module PoiseApplication
 end

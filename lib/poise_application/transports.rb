@@ -17,9 +17,9 @@
 module PoiseApplication
   module Transports
     module ClassMethods
-      def transport_helper(name)
+      def transport_helper(name, resource_name=nil)
         define_method(name) do |&block|
-          method_missing(name, '', &block).tap do |r|
+          method_missing(resource_name || name, '', &block).tap do |r|
             subresources.insert(r)
           end
         end
@@ -33,6 +33,6 @@ module PoiseApplication
 
     extend ClassMethods
 
-    transport_helper(:git)
+    transport_helper(:git, :poise_git)
   end
 end
