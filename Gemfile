@@ -19,8 +19,10 @@ source 'https://rubygems.org/'
 
 gemspec
 
-gem 'halite', path: '../halite'
-gem 'poise', path: '../poise'
+# gem 'halite', path: '../halite'
+# gem 'poise', path: '../poise'
+gem 'halite', github: 'coderanger/halite'
+gem 'poise', github: 'poise/poise'
 
 group :travis do
   gem 'codeclimate-test-reporter'
