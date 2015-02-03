@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+include_recipe 'git'
+
 application '/home/app' do
   git do
     repository 'https://github.com/poise/test_repo.git'
