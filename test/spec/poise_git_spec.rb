@@ -35,8 +35,8 @@ describe Chef::Resource::PoiseGit do
   end
 
   it { is_expected.to sync_poise_git('/test').with(repository: 'https://example.com/test.git', revision: 'd44ec06d0b2a87732e91c005ed2048c824fd63ed', deploy_key: 'secretkey', ssh_wrapper: File.expand_path('~root/ssh_wrapper_2089348824')) }
-  it { is_expected.to render_file(File.expand_path('~root/id_deploy_2089348824')).with_content('secretkey') }
-  it { is_expected.to render_file(File.expand_path('~root/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "#{File.expand_path('~root/id_deploy_2089348824')}" $@\n}) }
+  it { is_expected.to render_file(File.expand_path('~root/.ssh/id_deploy_2089348824')).with_content('secretkey') }
+  it { is_expected.to render_file(File.expand_path('~root/.ssh/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "#{File.expand_path('~root/id_deploy_2089348824')}" $@\n}) }
 
   context 'with a local path to a deploy key' do
     recipe do
@@ -49,7 +49,7 @@ describe Chef::Resource::PoiseGit do
     end
 
     it { is_expected.to sync_poise_git('/test').with(repository: 'https://example.com/test.git', revision: 'd44ec06d0b2a87732e91c005ed2048c824fd63ed', deploy_key: '/etc/key', ssh_wrapper: File.expand_path('~root/ssh_wrapper_2089348824')) }
-    it { is_expected.to render_file(File.expand_path('~root/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "/etc/key" $@\n}) }
+    it { is_expected.to render_file(File.expand_path('~root/.ssh/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "/etc/key" $@\n}) }
   end
 
   context 'with strict SSH' do
@@ -64,6 +64,6 @@ describe Chef::Resource::PoiseGit do
     end
 
     it { is_expected.to sync_poise_git('/test').with(repository: 'https://example.com/test.git', revision: 'd44ec06d0b2a87732e91c005ed2048c824fd63ed', deploy_key: 'secretkey', ssh_wrapper: File.expand_path('~root/ssh_wrapper_2089348824')) }
-    it { is_expected.to render_file(File.expand_path('~root/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -i "#{File.expand_path('~root/id_deploy_2089348824')}" $@\n}) }
+    it { is_expected.to render_file(File.expand_path('~root/.ssh/ssh_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -i "#{File.expand_path('~root/id_deploy_2089348824')}" $@\n}) }
   end
 end

@@ -43,7 +43,7 @@ class Chef
     end
 
     def ssh_wrapper_path
-      @ssh_wrapper_path ||= ::File.expand_path("~#{user}/ssh_wrapper_#{Zlib.crc32(name)}")
+      @ssh_wrapper_path ||= ::File.expand_path("~#{user}/.ssh/ssh_wrapper_#{Zlib.crc32(name)}")
     end
 
     def deploy_key_is_local?(key=nil)
@@ -55,7 +55,7 @@ class Chef
       @deploy_key_path ||= if deploy_key_is_local?
         deploy_key
       else
-        ::File.expand_path("~#{user}/id_deploy_#{Zlib.crc32(name)}")
+        ::File.expand_path("~#{user}/.ssh/id_deploy_#{Zlib.crc32(name)}")
       end
     end
   end
@@ -69,10 +69,19 @@ class Chef
 
     def load_current_resource
       notifying_block do
+        create_dotssh
         write_deploy_key
         write_ssh_wrapper
       end if new_resource.deploy_key
       super
+    end
+
+    def create_dotssh
+      directory ::File.expand_path("~#{new_resource.user}/.ssh") do
+        owner new_resource.user
+        group new_resource.group
+        mode '755'
+      end
     end
 
     def write_deploy_key
