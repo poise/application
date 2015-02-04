@@ -41,6 +41,8 @@ class Chef
       lookup_path << method_symbol
       # Find the first that exists, or just use the method_name for the error message
       candidate_resource = lookup_path.find {|name| have_resource_class_for?(name) } || method_symbol
+      # Give a default name of ''
+      args << '' if args.empty?
       super(candidate_resource, *args, &block)
     end
   end
