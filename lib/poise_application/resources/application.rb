@@ -27,7 +27,7 @@ class Chef
     default_action(:deploy)
 
     attribute(:path, kind_of: String, name_attribute: true)
-    attribute(:environment_name, kind_of: String, default: lazy { node.chef_environment == '_default' ? "production" : node.chef_environment })
+    attribute(:environment_name, kind_of: String, default: lazy { node.chef_environment == '_default' ? 'production' : node.chef_environment })
     attribute(:owner, kind_of: String)
     attribute(:group, kind_of: String)
   end

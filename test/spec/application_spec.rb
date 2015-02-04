@@ -33,5 +33,5 @@ describe Chef::Resource::Application do
   end
 
   it { is_expected.to deploy_application('/home/app') }
-  it { is_expected.to sync_poise_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master', deploy_key: 'secretkey') }
+  it { is_expected.to sync_poise_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master', deploy_key: 'secretkey', environment: 'production') }
 end
