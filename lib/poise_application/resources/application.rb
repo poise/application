@@ -30,6 +30,19 @@ class Chef
     attribute(:environment_name, kind_of: String, default: lazy { node.chef_environment == '_default' ? 'production' : node.chef_environment })
     attribute(:owner, kind_of: String)
     attribute(:group, kind_of: String)
+
+    def method_missing(method_symbol, *args, &block)
+      lookup_path = [:"application_#{method_symbol}"]
+      run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
+        if cookbook_name.start_with?('application_')
+          lookup_path << :"#{cookbook_name}_#{method_symbol}"
+        end
+      end
+      lookup_path << method_symbol
+      # Find the first that exists, or just use the method_name for the error message
+      candidate_resource = lookup_path.find {|name| have_resource_class_for?(name) } || method_symbol
+      super(candidate_resource, *args, &block)
+    end
   end
 
   class Provider::Application < Provider
