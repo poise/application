@@ -14,30 +14,12 @@
 # limitations under the License.
 #
 
-action :before_compile do
-  file '/before_compile' do
-    content new_resource.content
+include Poise
+
+action :run do
+  notifying_block do
+    file ::File.join(new_resource.parent.path, 'plugin') do
+      content new_resource.content
+    end
   end
-end
-
-action :before_deploy do
-  file '/before_deploy' do
-    content new_resource.release_path
-  end
-end
-
-action :before_migrate do
-  file '/before_migrate'
-end
-
-action :before_symlink do
-  file '/before_symlink'
-end
-
-action :before_restart do
-  file '/before_restart'
-end
-
-action :after_restart do
-  file '/after_restart'
 end

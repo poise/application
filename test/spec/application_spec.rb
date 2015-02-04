@@ -28,11 +28,17 @@ describe Chef::Resource::Application do
     end
   end
 
+  before do
+    # Unwrap notifying_block
+    allow_any_instance_of(Chef::Provider::Application).to receive(:notifying_block) {|&block| block.call }
+  end
+
   def sync_poise_git(name)
     ChefSpec::Matchers::ResourceMatcher.new(:poise_git, :sync, name)
   end
 
   it { is_expected.to deploy_application('/home/app').with(environment: 'production') }
+  it { is_expected.to create_directory('/home/app') }
   it { is_expected.to sync_poise_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master', deploy_key: 'secretkey') }
 
   context 'with a plugin application_test_plugin' do
