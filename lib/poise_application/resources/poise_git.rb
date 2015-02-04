@@ -27,6 +27,7 @@ class Chef
     def initialize(*args)
       super
       @resource_name = :poise_git
+      @provider = Chef::Provider::PoiseGit # For Chef 11 compat
     end
 
     def deploy_key(val=nil)
