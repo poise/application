@@ -16,7 +16,7 @@
 
 require 'spec_helper'
 
-describe Chef::Resource::PoiseGit, :focus do
+describe Chef::Resource::PoiseGit do
   step_into(:poise_git)
   recipe do
     poise_git '/test' do
