@@ -24,4 +24,4 @@ script:
 - openssl rsa -in test/docker/docker.pem -passin env:KITCHEN_DOCKER_PASS -out test/docker/docker.key
 - wget https://get.docker.io/builds/Linux/x86_64/docker-latest -O docker
 - chmod +x docker
-- "./bin/rake spec"
+- "./bin/rake test"
