@@ -20,6 +20,8 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
+require 'poise_application/safe_string'
+
 class Chef
   class Resource::PoiseGit < Resource::Git
     def initialize(*args)
@@ -28,8 +30,11 @@ class Chef
     end
 
     def deploy_key(val=nil)
-      # Set the wrapper if we have a deploy key
-      ssh_wrapper(ssh_wrapper_path) if val && !ssh_wrapper
+      if val
+        # Set the wrapper if we have a deploy key
+        ssh_wrapper(ssh_wrapper_path) if !ssh_wrapper
+        val = PoiseApplication::SafeString.new(val) unless deploy_key_is_local?(val)
+      end
       set_or_return(:deploy_key, val, kind_of: String)
     end
 
@@ -41,8 +46,9 @@ class Chef
       @ssh_wrapper_path ||= ::File.expand_path("~#{user}/ssh_wrapper_#{Zlib.crc32(name)}")
     end
 
-    def deploy_key_is_local?
-      deploy_key && deploy_key[0] == '/'
+    def deploy_key_is_local?(key=nil)
+      key ||= deploy_key
+      key && key[0] == '/'
     end
 
     def deploy_key_path
