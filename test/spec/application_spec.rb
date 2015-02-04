@@ -84,4 +84,19 @@ describe Chef::Resource::Application do
 
     it { is_expected.to run_application_test_test_plugin('/home/app::plugin') }
   end # /context with a plugin application_test_test_plugin
+
+  context 'with a plugin that has no name' do
+    resource(:test_plugin) do
+      include Poise(Chef::Resource::Application)
+    end
+    provider(:test_plugin)
+    recipe do
+      application '/home/app' do
+        test_plugin
+      end
+    end
+
+    it { is_expected.to run_test_plugin('/home/app') }
+  end # /context with a plugin that has no name
+
 end
