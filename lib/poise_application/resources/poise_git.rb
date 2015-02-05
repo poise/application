@@ -93,6 +93,7 @@ class Chef
         group new_resource.group
         mode '600'
         content new_resource.deploy_key
+        sensitive true
       end
     end
 
