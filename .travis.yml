@@ -3,10 +3,10 @@ cache: bundler
 language: ruby
 rvm:
 - 2.1.4
+gemfile:
+- test/gemfiles/chef-11.gemfile
+- test/gemfiles/chef-12.gemfile
 env:
-  matrix:
-  - CHEF_VERSION="11"
-  - CHEF_VERSION="12"
   global:
   - USE_SYSTEM_GECODE=true
   - KITCHEN_LOCAL_YAML=.kitchen.travis.yml

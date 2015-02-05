@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,15 +14,5 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
-
-gemspec path: File.expand_path('..', __FILE__)
-
-# gem 'halite', path: '../halite'
-# gem 'poise', path: '../poise'
-gem 'halite', github: 'coderanger/halite'
-gem 'poise', github: 'poise/poise'
-
-group :travis do
-  gem 'codeclimate-test-reporter'
-end
+instance_eval(IO.read(File.expand_path('../../../Gemfile', __FILE__)))
+gem 'chef', '~> 11.0'

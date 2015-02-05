@@ -2,10 +2,7 @@
 #<% require 'kitchen-sync' %>
 driver:
   name: vagrant
-
-chef_versions:
-- 11
-- 12
+  require_chef_omnibus: "<%= ENV['CHEF_VERSION'] || if ENV['CI'] then require 'chef/version'; Chef::VERSION else 'latest' end %>"
 
 platforms:
 - name: ubuntu-12.04
