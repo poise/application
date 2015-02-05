@@ -11,7 +11,7 @@ env:
   - secure: noSxPxfTehp+aYnYNddlE5TavYNiGN28BlXZuGBI89X+LsDCGGFB0ASk8kwmYU1tWVuu2XqmsPZO2OSRxAmhhewFw66cTJ/AymILtiJI+I+/T2C17rVv5QogP+btzbYKDNiHIYff1UIpLZ0pHxy0lvy5N1Cqj2i+UX/K/oI2wG8=
   - secure: IZ0ingfE5sdwCCrBqIxCtiLI8UDoKQBf8eXGsVcanLRI13yo8Tn58XM+NgYE+WOuiQhfdGC2Q8UX8U3df/KVdqftP+JNZ1At7D55i4Pgy3d0ywvBKaxvhPGEs72krqjfT84bsNx2NZwQko2BHPxw9pozxnrEF/h7WR2GZSlJicI=
 before_install:
-- ruby -e "require 'dep_selector'" && echo $?
+- bundle exec ruby -e "require 'dep_selector'" && echo $?
 - if ! ruby -e "require 'dep_selector'" 2>/dev/null; then curl -o ~/gecode.tar.gz
   https://poise-gecode.s3.amazonaws.com/gecode-3.7.3-ubuntu12.04-x86_64.tar.gz; fi
 - if ! ruby -e "require 'dep_selector'" 2>/dev/null; then tar xzf ~/gecode.tar.gz
