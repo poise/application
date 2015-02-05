@@ -9,6 +9,10 @@ platforms:
   run_list:
   - recipe[apt]
 
+chef_versions:
+- 11
+- 12
+
 suites:
 - name: default
   run_list:
