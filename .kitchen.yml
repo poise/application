@@ -1,8 +1,12 @@
 ---
 #<% require 'kitchen-sync' %>
+#<% chef_version = ENV['CHEF_VERSION'] || if ENV['CI'] then require 'chef/version'; Chef::VERSION else nil end %>
 driver:
   name: vagrant
-  require_chef_omnibus: "<%= ENV['CHEF_VERSION'] || if ENV['CI'] then require 'chef/version'; Chef::VERSION else 'latest' end %>"
+  require_chef_omnibus: "<%= chef_version || 'latest' %>"
+  provision_command:
+  - curl -L https://chef.io/chef/install.sh | bash <% if chef_version %>-s -- -v <%= chef_version %><% end %>
+  - env GEM_HOME=/tmp/busser/gems GEM_PATH=/tmp/busser/gems GEM_CACHE=/tmp/busser/gems/cache /opt/chef/embedded/bin/gem install thor busser busser-serverspec serverspec
 
 platforms:
 - name: ubuntu-12.04
