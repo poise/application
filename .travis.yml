@@ -19,7 +19,7 @@ before_install:
 - bundle config build.dep_selector "--with-cflags=\"-I$HOME/gecode-3.7.3/include\"
   --with-cppflags=\"-I$HOME/gecode-3.7.3/include\" --with-ldflags=\"-L$HOME/gecode-3.7.3/lib
   -Wl,-rpath=$HOME/gecode-3.7.3/lib\""
-bundler_args: "--binstubs=bin --jobs 3 --retry 3"
+bundler_args: "--binstubs=$(pwd)/bin --jobs 3 --retry 3"
 script:
 - openssl rsa -in test/docker/docker.pem -passin env:KITCHEN_DOCKER_PASS -out test/docker/docker.key
 - wget https://get.docker.io/builds/Linux/x86_64/docker-latest -O docker
