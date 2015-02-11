@@ -1,7 +1,11 @@
 DEPENDENCIES
+  application
+    gem: poise-application
   application_test
     path: test/cookbooks/application_test
   apt
+  poise
+    gem: poise
 
 GRAPH
   application (5.0.0)
