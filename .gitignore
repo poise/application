@@ -1,6 +1,7 @@
-.bundle
-.cache
-.kitchen
-bin
-.docker.*
+Gemfile.lock
+test/gemfiles/*.lock
+.kitchen/
 .kitchen.local.yml
+test/docker/
+coverage/
+pkg/

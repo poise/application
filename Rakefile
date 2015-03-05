@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,24 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
+task :default => [:test]
 
-gemspec path: File.expand_path('..', __FILE__)
+# build/upload tasks
+require 'bundler/gem_tasks'
 
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
-  github = "#{github}/#{name}" unless github.include?('/')
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  else
-    gem name, github: github
-  end
+# Spec runner
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = [].tap do |a|
+    a << '--color'
+    a << '--format Fuubar'
+    a << '--backtrace '
+    a << "--default-path test"
+    a << '-I test/spec'
+  end.join(' ')
 end
 
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'yard-classmethods'
+task :test => [:spec]
+
+# Halite helper tasks
+require 'halite/rake_tasks'

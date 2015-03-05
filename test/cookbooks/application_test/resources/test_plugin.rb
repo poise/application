@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
-include ApplicationCookbook::ResourceBase
+include Poise(Chef::Resource::Application)
 
+default_action :run
 attribute :content

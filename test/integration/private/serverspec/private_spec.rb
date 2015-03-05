@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,15 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
+require 'serverspec'
+set :backend, :exec
 
-gemspec path: File.expand_path('..', __FILE__)
-
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
-  github = "#{github}/#{name}" unless github.include?('/')
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  else
-    gem name, github: github
-  end
+describe file('/home/app') do
+  it { is_expected.to be_a_directory }
 end
 
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'yard-classmethods'
+describe file('/home/app/README.md') do
+  it { is_expected.to be_a_file }
+  its(:content) { is_expected.to include('repo=private_test_repo') }
+  its(:content) { is_expected.to include('branch=master') }
+end

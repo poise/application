@@ -17,28 +17,7 @@
 require 'serverspec'
 set :backend, :exec
 
-describe file('/before_compile') do
+describe file('/home/app/plugin') do
   it { is_expected.to be_a_file }
   its(:content) { is_expected.to eq 'test plugin' }
-end
-
-describe file('/before_deploy') do
-  it { is_expected.to be_a_file }
-  its(:content) { is_expected.to start_with '/home/app/releases/' }
-end
-
-describe file('/before_migrate') do
-  it { is_expected.to be_a_file }
-end
-
-describe file('/before_symlink') do
-  it { is_expected.to be_a_file }
-end
-
-describe file('/before_restart') do
-  it { is_expected.to be_a_file }
-end
-
-describe file('/after_restart') do
-  it { is_expected.to be_a_file }
 end

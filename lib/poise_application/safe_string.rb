@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,11 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
-
-gemspec path: File.expand_path('..', __FILE__)
-
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
-  github = "#{github}/#{name}" unless github.include?('/')
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  else
-    gem name, github: github
+module PoiseApplication
+  # A string that won't be shown in Chef error output
+  class SafeString < String
+    def to_text
+      '"suppressed sensitive value"'
+    end
   end
 end
-
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'yard-classmethods'

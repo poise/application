@@ -1,5 +1,13 @@
 Application cookbook
 ====================
+
+[![Build Status](https://img.shields.io/travis/poise/application.svg)](https://travis-ci.org/poise/application)
+[![Gem Version](https://img.shields.io/gem/v/poise-application.svg)](https://rubygems.org/gems/poise-application)
+[![Cookbook Version](https://img.shields.io/cookbook/v/application.svg)](https://supermarket.chef.io/cookbooks/application)
+[![Code Climate](https://img.shields.io/codeclimate/github/poise/application.svg)](https://codeclimate.com/github/poise/application)
+[![Coverage](https://img.shields.io/codeclimate/coverage/github/poise/application.svg)](https://codeclimate.com/github/poise/application)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 This cookbook is designed to be able to describe and deploy web applications. It provides the basic infrastructure; other cookbooks are required to support specific combinations of frameworks and application servers. The following cookbooks are available at this time:
 
 - [application_java](https://github.com/opscode-cookbooks/application_java) (Java and Tomcat)

@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,9 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
+require 'poise_application/error'
+require 'poise_application/resources/application'
+require 'poise_application/resources/poise_git'
 
-gemspec path: File.expand_path('..', __FILE__)
-
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
-  github = "#{github}/#{name}" unless github.include?('/')
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  else
-    gem name, github: github
-  end
+module PoiseApplication
 end
-
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'yard-classmethods'

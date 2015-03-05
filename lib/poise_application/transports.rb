@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,25 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
+module PoiseApplication
+  module Transports
+    module ClassMethods
+      def transport_helper(name, resource_name=nil)
+        define_method(name) do |&block|
+          method_missing(resource_name || name, '', &block).tap do |r|
+            subresources.insert(r)
+          end
+        end
+      end
 
-gemspec path: File.expand_path('..', __FILE__)
+      def included(klass)
+        super
+        klass.extend ClassMethods
+      end
+    end
 
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
-  github = "#{github}/#{name}" unless github.include?('/')
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  else
-    gem name, github: github
+    extend ClassMethods
+
+    transport_helper(:git, :poise_git)
   end
 end
-
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'yard-classmethods'

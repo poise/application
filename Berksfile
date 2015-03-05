@@ -15,9 +15,13 @@
 #
 
 source 'https://supermarket.chef.io/'
+extension 'halite'
 
-metadata
+# Force the rebuild every time for development.
+cookbook 'poise', gem: 'poise'
+cookbook 'application', gem: 'poise-application'
 
 group :test do
   cookbook 'application_test', path: 'test/cookbooks/application_test'
+  cookbook 'apt'
 end
