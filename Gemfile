@@ -1,10 +1,28 @@
-source :rubygems
+#
+# Copyright 2009-2015, Opscode, Inc.
+# Copyright 2015, Noah Kantrowitz
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-gem 'cucumber', '~> 1.2.1'
-gem 'httparty', '~> 0.8.3'
-gem 'minitest', '~> 3.0.0'
-gem 'nokogiri', '~> 1.5.0'
+source 'https://rubygems.org'
 
-group :kitchen  do
-  gem 'test-kitchen', '< 1.0'
-end
+gem 'test-kitchen', github: 'test-kitchen/test-kitchen' # For mixlib-shellout conflict
+gem 'berkshelf', '~> 3.0'
+gem 'chef', '~> 12.0'
+gem 'kitchen-vagrant'
+gem 'vagrant-wrapper'
+gem 'foodcritic', '>= 3.0.3'
+gem 'kitchen-docker'
+gem 'travis'
+gem 'kitchen-sync'

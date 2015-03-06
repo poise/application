@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 #
 # Copyright 2015, Noah Kantrowitz
 #
@@ -16,10 +14,6 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
+include ApplicationCookbook::ResourceBase
 
-metadata
-
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
-end
+attribute :content

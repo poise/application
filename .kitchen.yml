@@ -1,0 +1,19 @@
+---
+#<% require 'kitchen-sync' %>
+driver:
+  name: vagrant
+
+chef_versions:
+- 11
+- 12
+
+platforms:
+- name: ubuntu-12.04
+
+suites:
+- name: default
+  run_list:
+  - recipe[application_test]
+- name: plugin
+  run_list:
+  - recipe[application_test::plugin]

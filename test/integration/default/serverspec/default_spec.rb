@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 #
 # Copyright 2015, Noah Kantrowitz
 #
@@ -16,10 +14,19 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
+require 'serverspec'
+set :backend, :exec
 
-metadata
+describe file('/home/app') do
+  it { is_expected.to be_a_directory }
+end
 
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
+describe file('/home/app/current') do
+  it { is_expected.to be_a_directory }
+end
+
+describe file('/home/app/current/README.md') do
+  it { is_expected.to be_a_file }
+  its(:content) { is_expected.to include('repo=test_repo') }
+  its(:content) { is_expected.to include('branch=master') }
 end

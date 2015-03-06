@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 #
 # Copyright 2015, Noah Kantrowitz
 #
@@ -16,10 +14,10 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
+include_recipe 'git'
 
-metadata
-
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
+application 'test_repo' do
+  path '/home/app'
+  repository 'https://github.com/poise/test_repo.git'
+  revision 'master'
 end

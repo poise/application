@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 #
 # Copyright 2015, Noah Kantrowitz
 #
@@ -16,10 +14,30 @@
 # limitations under the License.
 #
 
-source 'https://supermarket.chef.io/'
+action :before_compile do
+  file '/before_compile' do
+    content new_resource.content
+  end
+end
 
-metadata
+action :before_deploy do
+  file '/before_deploy' do
+    content new_resource.release_path
+  end
+end
 
-group :test do
-  cookbook 'application_test', path: 'test/cookbooks/application_test'
+action :before_migrate do
+  file '/before_migrate'
+end
+
+action :before_symlink do
+  file '/before_symlink'
+end
+
+action :before_restart do
+  file '/before_restart'
+end
+
+action :after_restart do
+  file '/after_restart'
 end
