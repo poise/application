@@ -2,6 +2,11 @@ application Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the application cookbook.
 
+v4.3.0
+------
+### Depedency updates
+- Updated from upstream master for chef 12 support and other minor bug fixes
+
 v4.2.0
 ------
 ### Feature
