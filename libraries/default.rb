@@ -138,11 +138,7 @@ class ApplicationCookbook
 
     def deploy_provider
       @deploy_provider ||= begin
-        provider = if Chef::Platform.method(:provider_for_resource).arity == 2
-                     Chef::Platform.provider_for_resource(@deploy_resource, :nothing)
-                   else
-                     Chef::Platform.provider_for_resource(@deploy_resource)
-                   end
+        provider = @deploy_resource.provider_for_action(:nothing)
         provider.load_current_resource
         provider
       end

@@ -21,3 +21,10 @@ github_key
 
 # graph images
 *.png
+=======
+.bundle
+.cache
+.kitchen
+bin
+.docker.*
+.kitchen.local.yml

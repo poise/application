@@ -1,5 +1,4 @@
 #
-# Copyright 2009-2015, Opscode, Inc.
 # Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +14,19 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org'
+require 'serverspec'
+set :backend, :exec
 
-gem 'test-kitchen', github: 'test-kitchen/test-kitchen' # For mixlib-shellout conflict
-gem 'berkshelf', '~> 3.0'
-gem 'chef', '~> 12.0'
-gem 'kitchen-vagrant'
-gem 'vagrant-wrapper'
-gem 'foodcritic', '>= 3.0.3'
-gem 'kitchen-docker'
-gem 'travis'
-gem 'kitchen-sync'
+describe file('/home/app') do
+  it { is_expected.to be_a_directory }
+end
+
+describe file('/home/app/current') do
+  it { is_expected.to be_a_directory }
+end
+
+describe file('/home/app/current/README.md') do
+  it { is_expected.to be_a_file }
+  its(:content) { is_expected.to include('repo=test_repo') }
+  its(:content) { is_expected.to include('branch=master') }
+end
