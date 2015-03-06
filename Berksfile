@@ -1,7 +1,5 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-=======
 #
 # Copyright 2015, Noah Kantrowitz
 #
