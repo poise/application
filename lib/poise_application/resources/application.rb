@@ -31,6 +31,17 @@ class Chef
     attribute(:owner, kind_of: String)
     attribute(:group, kind_of: String)
 
+    # Application-specific state values used as a way to communicate between
+    # subresources.
+    #
+    # @api public
+    # @return [Mash]
+    # @example
+    #   if new_resource.parent && new_resource.parent.app_state['gemfile_path']
+    def app_state
+      @app_state ||= Mash.new
+    end
+
     def method_missing(method_symbol, *args, &block)
       lookup_path = [:"application_#{method_symbol}"]
       run_context.cookbook_collection.each do |cookbook_name, cookbook_ver|
