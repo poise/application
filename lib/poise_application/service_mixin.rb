@@ -41,7 +41,7 @@ module PoiseApplication
           actions(:enable, :disable, :restart)
 
           attribute(:path, kind_of: String, name_attribute: true)
-          attribute(:service_name, kind_of: String, default: lazy { parent ? parent.service_name : PoiseApplication::Utils.parse_service_name(path) })
+          attribute(:service_name, kind_of: String, default: lazy { PoiseApplication::Utils.parse_service_name(path) })
           attribute(:user, kind_of: [String, Integer], default: lazy { parent ? parent.owner : 'root' })
         end
       end
