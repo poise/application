@@ -21,7 +21,6 @@ before_install:
 bundler_args: "--binstubs=$PWD/bin --jobs 3 --retry 3"
 script:
 - "./bin/rake spec"
-- "./bin/rake chef:foodcritic"
 - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then openssl rsa -in test/docker/docker.pem
   -passin env:KITCHEN_DOCKER_PASS -out test/docker/docker.key; fi
 - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then wget https://get.docker.io/builds/Linux/x86_64/docker-latest
