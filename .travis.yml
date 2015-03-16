@@ -29,5 +29,4 @@ script:
 - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then chmod +x docker; fi
 - if [ "$TRAVIS_SECURE_ENV_VARS" = true ]; then ./bin/kitchen test -d always; fi
 gemfile:
-- test/gemfiles/chef-11.gemfile
 - test/gemfiles/chef-12.gemfile
