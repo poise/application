@@ -54,7 +54,14 @@ class Chef
       candidate_resource = lookup_path.find {|name| have_resource_class_for?(name) } || method_symbol
       # Give a default name of ''
       args << '' if args.empty?
-      super(candidate_resource, *args, &block)
+      # Store the caller to correct the source_line.
+      created_at = caller[0]
+      super(candidate_resource, *args) do
+        # Fix the source location.
+        self.source_line = created_at
+        # Run the original block.
+        instance_exec(&block) if block
+      end
     end
   end
 
