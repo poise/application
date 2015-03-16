@@ -52,7 +52,7 @@ describe Chef::Resource::Application do
       end
     end
 
-    it { is_expected.to run_application_test_plugin('/home/app::plugin') }
+    it { is_expected.to run_application_test_plugin('plugin') }
   end # /context with a plugin application_test_plugin
 
   context 'with a plugin test_plugin' do
@@ -66,7 +66,7 @@ describe Chef::Resource::Application do
       end
     end
 
-    it { is_expected.to run_test_plugin('/home/app::plugin') }
+    it { is_expected.to run_test_plugin('plugin') }
   end # /context with a plugin test_plugin
 
   context 'with a plugin appication_test_test_plugin' do
@@ -82,7 +82,7 @@ describe Chef::Resource::Application do
       end
     end
 
-    it { is_expected.to run_application_test_test_plugin('/home/app::plugin') }
+    it { is_expected.to run_application_test_test_plugin('plugin') }
   end # /context with a plugin application_test_test_plugin
 
   context 'with a plugin that has no name' do

@@ -30,6 +30,7 @@ describe Chef::Resource::PoiseGit do
   before do
     # Don't actually run the real thing
     expect_any_instance_of(Chef::Provider::PoiseGit).to receive(:action_sync).and_return(nil)
+    expect_any_instance_of(Chef::Provider::PoiseGit).to receive(:include_recipe).with('git').and_return(nil)
     # Unwrap notifying_block
     allow_any_instance_of(Chef::Provider::PoiseGit).to receive(:notifying_block) {|&block| block.call }
   end
