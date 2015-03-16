@@ -69,6 +69,7 @@ class Chef
     end
 
     def load_current_resource
+      include_recipe 'git'
       notifying_block do
         create_dotssh
         write_deploy_key
