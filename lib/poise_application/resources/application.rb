@@ -22,7 +22,7 @@ require 'poise_application/transports'
 
 class Chef
   class Resource::Application < Resource
-    include Poise(container: true)
+    include Poise(container: true, container_namespace: false)
     include PoiseApplication::Transports
     default_action(:deploy)
 
