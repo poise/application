@@ -18,12 +18,10 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
-require 'poise_application/transports'
 
 class Chef
   class Resource::Application < Resource
     include Poise(container: true, container_namespace: false)
-    include PoiseApplication::Transports
     default_action(:deploy)
 
     attribute(:path, kind_of: String, name_attribute: true)

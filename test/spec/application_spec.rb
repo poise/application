@@ -16,14 +16,13 @@
 
 require 'spec_helper'
 
+
 describe Chef::Resource::Application do
   step_into(:application)
   recipe do
     application '/home/app' do
-      git do
-        repository 'https://github.com/poise/test_repo.git'
-        revision 'master'
-        deploy_key 'secretkey'
+      remote_directory do
+        source 'myapp'
       end
     end
   end
@@ -39,7 +38,7 @@ describe Chef::Resource::Application do
 
   it { is_expected.to deploy_application('/home/app').with(environment: 'production') }
   it { is_expected.to create_directory('/home/app') }
-  it { is_expected.to sync_poise_git('/home/app').with(repository: 'https://github.com/poise/test_repo.git', revision: 'master', deploy_key: 'secretkey') }
+  it { is_expected.to create_remote_directory('/home/app').with(source: 'myapp') }
 
   context 'with a plugin application_test_plugin' do
     resource(:application_test_plugin) do

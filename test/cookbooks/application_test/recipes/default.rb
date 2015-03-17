@@ -14,11 +14,8 @@
 # limitations under the License.
 #
 
-include_recipe 'git'
-
 application '/home/app' do
-  git do
-    repository 'https://github.com/poise/test_repo.git'
-    revision 'master'
+  test_plugin do
+    content 'test plugin'
   end
 end

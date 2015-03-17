@@ -16,4 +16,3 @@
 
 name 'application_test'
 depends 'application'
-depends 'git'

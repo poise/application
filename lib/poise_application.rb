@@ -16,7 +16,6 @@
 
 require 'poise_application/error'
 require 'poise_application/resources/application'
-require 'poise_application/resources/poise_git'
 require 'poise_application/service_mixin'
 require 'poise_application/utils'
 

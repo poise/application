@@ -6,9 +6,3 @@ suites:
 - name: default
   run_list:
   - recipe[application_test]
-- name: plugin
-  run_list:
-  - recipe[application_test::plugin]
-- name: private
-  run_list:
-  - recipe[application_test::private]

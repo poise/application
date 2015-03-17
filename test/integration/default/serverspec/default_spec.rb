@@ -21,8 +21,7 @@ describe file('/home/app') do
   it { is_expected.to be_a_directory }
 end
 
-describe file('/home/app/README.md') do
+describe file('/home/app/plugin') do
   it { is_expected.to be_a_file }
-  its(:content) { is_expected.to include('repo=test_repo') }
-  its(:content) { is_expected.to include('branch=master') }
+  its(:content) { is_expected.to eq 'test plugin' }
 end

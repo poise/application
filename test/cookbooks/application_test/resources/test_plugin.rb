@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-include Poise(Chef::Resource::Application)
+include Poise(parent: Chef::Resource::Application)
 
 default_action :run
 attribute :content
