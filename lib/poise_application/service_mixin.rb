@@ -16,7 +16,8 @@
 
 require 'chef/resource'
 require 'chef/provider'
-require 'poise_service/resource'
+require 'poise_service/service_mixin'
+require 'poise_service/utils'
 
 require 'poise_application/utils'
 
@@ -27,21 +28,48 @@ module PoiseApplication
   #
   # @api public
   # @since 5.0.0
-  # @todo example
+  # @example
+  #   module MyApp
+  #     class Resource < Chef::Resource
+  #       include Poise
+  #       provides(:my_app)
+  #       include PoiseApplication::ServiceMixin
+  #     end
+  #
+  #     class Provider < Chef::Provider
+  #       include Poise
+  #       provides(:my_app)
+  #       include PoiseApplication::ServiceMixin
+  #
+  #       def action_enable
+  #         notifying_block do
+  #           template '/etc/myapp.conf' do
+  #             # ...
+  #           end
+  #         end
+  #         super
+  #       end
+  #
+  #       def service_options(r)
+  #         super
+  #         r.command('myapp --serve')
+  #       end
+  #     end
+  #   end
   module ServiceMixin
     # Mixin for application service resources.
     #
     # @see ServiceMixin
     module Resource
-      # @!visibility private
       # @api private
       def self.included(klass)
         klass.class_exec do
-          include Poise(parent: Chef::Resource::Application, parent_optional: true)
-          actions(:enable, :disable, :restart)
+          include PoiseService::ServiceMixin::Resource
+          poise_subresource(Chef::Resource::Application, true)
 
           attribute(:path, kind_of: String, name_attribute: true)
-          attribute(:service_name, kind_of: String, default: lazy { PoiseApplication::Utils.parse_service_name(path) })
+          # Redefines from the PoiseService version so we get a better default.
+          attribute(:service_name, kind_of: String, default: lazy { PoiseService::Utils.parse_service_name(path) })
           attribute(:user, kind_of: [String, Integer], default: lazy { parent ? parent.owner : 'root' })
         end
       end
@@ -51,81 +79,14 @@ module PoiseApplication
     #
     # @see ServiceMixin
     module Provider
-      # @!visibility private
       # @api private
       def self.included(klass)
-        klass.class_exec { include Poise }
-      end
-
-      # Default enable action for application services.
-      #
-      # @api public
-      # @return [void]
-      def action_enable
-        notify_if_service do
-          service_resource.run_action(:enable)
+        klass.class_exec do
+          include PoiseService::ServiceMixin::Provider
         end
       end
-
-      # Default disable action for application services.
-      #
-      # @api public
-      # @return [void]
-      def action_disable
-        notify_if_service do
-          service_resource.run_action(:disable)
-        end
-      end
-
-      # Default restart action for application services.
-      #
-      # @api public
-      # @return [void]
-      def action_restart
-        notify_if_service do
-          service_resource.run_action(:restart)
-        end
-      end
-
-      # @todo Add reload once poise-service supports it.
 
       private
-
-      # Set the current resource as notified if the provided block updates the
-      # service resource.
-      #
-      # @api public
-      # @param block [Proc] Block to run.
-      # @return [void]
-      # @example
-      #   notify_if_service do
-      #     service_resource.run_action(:enable)
-      #   end
-      def notify_if_service(&block)
-        service_resource.updated_by_last_action(false)
-        block.call
-        new_resource.updated_by_last_action(true) if service_resource.updated_by_last_action?
-      end
-
-      # Service resource for this application service. This returns a
-      # poise_service resource that will not be added to the resource
-      # collection. Override {#service_options} to set service resource
-      # parameters.
-      #
-      # @api public
-      # @return [Chef::Resource]
-      # @example
-      #   service_resource.run_action(:restart)
-      def service_resource
-        @service_resource ||= PoiseService::Resource.new(new_resource.name, run_context).tap do |r|
-          # Set some defaults based on the resource and possibly the app.
-          r.service_name(new_resource.service_name)
-          r.directory(new_resource.path)
-          r.user(new_resource.user)
-          # Call the subclass hook for more specific settings.
-          service_options(r)
-        end
-      end
 
       # Abstract hook to set parameters on {#service_resource} when it is
       # created. This is required to set at least `resource.command`.
@@ -135,10 +96,12 @@ module PoiseApplication
       # @return [void]
       # @example
       #   def service_options(resource)
+      #     super
       #     resource.command('myapp --serve')
       #   end
       def service_options(resource)
-        raise NotImplementedError
+        r.directory(new_resource.path)
+        r.user(new_resource.user)
       end
     end
 

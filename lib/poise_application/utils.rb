@@ -26,22 +26,6 @@ module PoiseApplication
     # Methods are also available as module-level methods as well as a mixin.
     extend self
 
-    # Common segments to ignore
-    COMMON_SEGMENTS = %w{var www current etc}.inject({}) {|memo, seg| memo[seg] = true; memo }
-
-    # Parse the service name from the path. Look at the last component of the
-    # path, ignoring some common names.
-    #
-    # @param path [String] Path to parse.
-    # @return [String]
-    # @example
-    #   attribute(:service_name, kind_of: String, default: lazy { PoiseApplication::Utils.parse_service_name(path) })
-    def parse_service_name(path)
-      parts = ::File.split(path).reverse!
-      # Find the last segment not in common segments, fall back to the last segment.
-      parts.find {|seg| !COMMON_SEGMENTS[seg] } || parts.first
-    end
-
     # Try to find the primary group name for a given user.
     #
     # @param user [String, Integer] User to check, if given as an integer this
