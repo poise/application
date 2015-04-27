@@ -19,9 +19,7 @@ source 'https://rubygems.org/'
 
 gemspec path: File.expand_path('..', __FILE__)
 
-def dev_gem(name, path: nil, github: nil)
-  path ||= File.join('..', name)
-  github ||= "#{name.include?('poise') ? 'poise' : 'coderanger'}/#{name}"
+def dev_gem(name, path: File.join('..', name), github: "poise/#{name}")
   github = "#{github}/#{name}" unless github.include?('/')
   path = File.expand_path(File.join('..', path), __FILE__)
   if File.exist?(path)
