@@ -42,7 +42,7 @@ describe Chef::Resource::Application do
 
   context 'with a plugin application_test_plugin' do
     resource(:application_test_plugin) do
-      include Poise(Chef::Resource::Application)
+      include Poise(parent: :application)
     end
     provider(:application_test_plugin)
     recipe do
@@ -56,7 +56,7 @@ describe Chef::Resource::Application do
 
   context 'with a plugin test_plugin' do
     resource(:test_plugin) do
-      include Poise(Chef::Resource::Application)
+      include Poise(parent: :application)
     end
     provider(:test_plugin)
     recipe do
@@ -70,7 +70,7 @@ describe Chef::Resource::Application do
 
   context 'with a plugin appication_test_test_plugin' do
     resource(:application_test_test_plugin) do
-      include Poise(Chef::Resource::Application)
+      include Poise(parent: :application)
     end
     provider(:application_test_test_plugin)
     recipe do
@@ -86,7 +86,7 @@ describe Chef::Resource::Application do
 
   context 'with a plugin that has no name' do
     resource(:test_plugin) do
-      include Poise(Chef::Resource::Application)
+      include Poise(parent: :application)
     end
     provider(:test_plugin)
     recipe do
