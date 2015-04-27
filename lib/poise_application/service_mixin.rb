@@ -16,6 +16,7 @@
 
 require 'chef/resource'
 require 'chef/provider'
+require 'poise/utils'
 require 'poise_service/service_mixin'
 require 'poise_service/utils'
 
@@ -57,34 +58,38 @@ module PoiseApplication
   #     end
   #   end
   module ServiceMixin
+    include Poise::Utils::ResourceProviderMixin
+
     # Mixin for application service resources.
     #
     # @see ServiceMixin
     module Resource
-      # @api private
-      def self.included(klass)
-        klass.class_exec do
-          include PoiseService::ServiceMixin::Resource
-          poise_subresource(Chef::Resource::Application, true)
+      include PoiseService::ServiceMixin::Resource
 
-          attribute(:path, kind_of: String, name_attribute: true)
-          # Redefines from the PoiseService version so we get a better default.
-          attribute(:service_name, kind_of: String, default: lazy { PoiseService::Utils.parse_service_name(path) })
-          attribute(:user, kind_of: [String, Integer], default: lazy { parent ? parent.owner : 'root' })
+      module ClassMethods
+        # @api private
+        def included(klass)
+          super
+          klass.extend(ClassMethods)
+          klass.class_exec do
+            poise_subresource(:application, true)
+
+            attribute(:path, kind_of: String, name_attribute: true)
+            # Redefines from the PoiseService version so we get a better default.
+            attribute(:service_name, kind_of: String, default: lazy { PoiseService::Utils.parse_service_name(path) })
+            attribute(:user, kind_of: [String, Integer], default: lazy { parent ? parent.owner : 'root' })
+          end
         end
       end
+
+      extend ClassMethods
     end
 
     # Mixin for application service providers.
     #
     # @see ServiceMixin
     module Provider
-      # @api private
-      def self.included(klass)
-        klass.class_exec do
-          include PoiseService::ServiceMixin::Provider
-        end
-      end
+      include PoiseService::ServiceMixin::Provider
 
       private
 
@@ -100,21 +105,9 @@ module PoiseApplication
       #     resource.command('myapp --serve')
       #   end
       def service_options(resource)
-        r.directory(new_resource.path)
-        r.user(new_resource.user)
-      end
-    end
-
-    # Delegate to the correct mixin based on the type of class.
-    #
-    # @!visibility private
-    # @api private
-    def self.included(klass)
-      super
-      if klass < Chef::Resource
-        klass.class_exec { include PoiseApplication::ServiceMixin::Resource}
-      elsif klass < Chef::Provider
-        klass.class_exec { include PoiseApplication::ServiceMixin::Provider}
+        super
+        resource.directory(new_resource.path)
+        resource.user(new_resource.user)
       end
     end
   end
