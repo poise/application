@@ -17,7 +17,7 @@
 require 'spec_helper'
 
 
-describe Chef::Resource::Application do
+describe PoiseApplication::Resources::Application::Resource do
   step_into(:application)
   recipe do
     application '/home/app' do
@@ -29,7 +29,7 @@ describe Chef::Resource::Application do
 
   before do
     # Unwrap notifying_block
-    allow_any_instance_of(Chef::Provider::Application).to receive(:notifying_block) {|&block| block.call }
+    allow_any_instance_of(PoiseApplication::Resources::Application::Provider).to receive(:notifying_block) {|&block| block.call }
   end
 
   def sync_poise_git(name)
