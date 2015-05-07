@@ -55,6 +55,7 @@ attribute :migrate, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :migration_command, :kind_of => [String, NilClass], :default => nil
 attribute :packages, :kind_of => [Array, Hash], :default => []
 attribute :application_provider
+attribute :sensitive_deploy, :kind_of => [TrueClass, FalseClass], :default => true
 attr_reader :sub_resources
 
 def restart_command(arg=nil, &block)

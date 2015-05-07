@@ -2,6 +2,12 @@ application Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the application cookbook.
 
+v4.3.1
+------
+### Improvements
+- Don't expose ssh key, use sensitive attribute for resources
+
+
 v4.3.0
 ------
 ### Depedency updates
