@@ -97,17 +97,18 @@ def before_deploy
   end
 
   if new_resource.deploy_key
-    
+
     if ::File.exists?(new_resource.deploy_key)
       deploy_key = open(new_resource.deploy_key, &:read)
     else
       deploy_key = new_resource.deploy_key
     end
-    
+
     file "#{new_resource.path}/id_deploy" do
       content deploy_key
       owner new_resource.owner
       group new_resource.group
+      sensitive true
       mode '0600'
     end
 
@@ -138,6 +139,7 @@ def run_deploy(deploy_action = :deploy)
   app_provider = self
 
   @deploy_resource = send(new_resource.strategy.to_sym, new_resource.name) do
+    sensitive new_resource.sensitive_deploy
     action deploy_action.to_sym
     scm_provider new_resource.scm_provider
     revision new_resource.revision
