@@ -14,5 +14,6 @@
 # limitations under the License.
 #
 
-instance_eval(IO.read(File.expand_path('../../../Gemfile', __FILE__)))
+eval_gemfile File.expand_path('../../../Gemfile', __FILE__)
+
 gem 'chef', '~> 12.0'
