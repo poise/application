@@ -16,10 +16,7 @@
 
 
 module PoiseApplication
-  autoload :AppMixin, 'poise_application/app_mixin'
-  autoload :Error, 'poise_application/error'
-  autoload :Resources, 'poise_application/resources'
-  autoload :ServiceMixin, 'poise_application/service_mixin'
-  autoload :Utils, 'poise_application/utils'
-  autoload :VERSION, 'poise_application/version'
+  module Resources
+    autoload :Application, 'poise_application/resources/application'
+  end
 end
