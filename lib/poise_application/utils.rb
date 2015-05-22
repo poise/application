@@ -36,10 +36,11 @@ module PoiseApplication
     def primary_group_for(user)
        # Force a reload in case any users were created earlier in the run.
       Etc.endpwent
+      Etc.endgrent
       user = if user.is_a?(Integer)
         Etc.getpwuid(user)
       else
-        Etc.etcpwnam(user.to_s)
+        Etc.getpwnam(user.to_s)
       end
       Etc.getgrgid(user.gid).name
     rescue ArgumentError
