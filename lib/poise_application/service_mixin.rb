@@ -20,6 +20,7 @@ require 'poise/utils'
 require 'poise_service/service_mixin'
 require 'poise_service/utils'
 
+require 'poise_application/app_mixin'
 require 'poise_application/utils'
 
 
@@ -65,6 +66,7 @@ module PoiseApplication
     # @see ServiceMixin
     module Resource
       include PoiseService::ServiceMixin::Resource
+      include PoiseApplication::AppMixin::Resource
 
       module ClassMethods
         # @api private
@@ -72,8 +74,6 @@ module PoiseApplication
           super
           klass.extend(ClassMethods)
           klass.class_exec do
-            poise_subresource(:application, true)
-
             attribute(:path, kind_of: String, name_attribute: true)
             # Redefines from the PoiseService version so we get a better default.
             attribute(:service_name, kind_of: String, default: lazy { PoiseService::Utils.parse_service_name(path) })
@@ -90,6 +90,7 @@ module PoiseApplication
     # @see ServiceMixin
     module Provider
       include PoiseService::ServiceMixin::Provider
+      include PoiseApplication::AppMixin::Provider
 
       private
 
@@ -108,6 +109,7 @@ module PoiseApplication
         super
         resource.directory(new_resource.path)
         resource.user(new_resource.user)
+        resource.environment.update(new_resource.app_state_environment) if new_resource.parent
       end
     end
   end
