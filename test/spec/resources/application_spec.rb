@@ -16,7 +16,6 @@
 
 require 'spec_helper'
 
-
 describe PoiseApplication::Resources::Application::Resource do
   step_into(:application)
   recipe do
@@ -25,15 +24,6 @@ describe PoiseApplication::Resources::Application::Resource do
         source 'myapp'
       end
     end
-  end
-
-  before do
-    # Unwrap notifying_block
-    allow_any_instance_of(PoiseApplication::Resources::Application::Provider).to receive(:notifying_block) {|&block| block.call }
-  end
-
-  def sync_poise_git(name)
-    ChefSpec::Matchers::ResourceMatcher.new(:poise_git, :sync, name)
   end
 
   it { is_expected.to deploy_application('/home/app').with(environment: 'production') }
@@ -75,7 +65,7 @@ describe PoiseApplication::Resources::Application::Resource do
     provider(:application_test_test_plugin)
     recipe do
       extend RSpec::Mocks::ExampleMethods
-      allow(run_context.cookbook_collection).to receive(:each).and_yield('application_test', double())
+      allow(run_context.cookbook_collection).to receive(:keys).and_return(%w{application_test})
       application '/home/app' do
         test_plugin 'plugin'
       end
@@ -97,5 +87,4 @@ describe PoiseApplication::Resources::Application::Resource do
 
     it { is_expected.to run_test_plugin('/home/app') }
   end # /context with a plugin that has no name
-
 end
