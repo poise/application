@@ -59,8 +59,8 @@ module PoiseApplication
             # Chef >= 12.4.
             Chef::DSL::Resources.instance_methods
           elsif defined?(Chef::Resource.descendants)
-            # Chef 12.3
-            Chef::Resource.descendants.map {|klass| klass.dsl_name }
+            # Chef 12.3. Like 12.2, but each class has its own node_map.
+            Chef::Resource.descendants.map {|klass| klass.node_map.instance_variable_get(:@map).keys }.flatten
           else
             # Chef < 12.3. There is no actual API for this.
             Chef::Resource.node_map.instance_variable_get(:@map).keys
