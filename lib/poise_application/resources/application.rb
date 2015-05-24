@@ -86,7 +86,7 @@ module PoiseApplication
           application_cookbooks = _rewire_cookbooks
           _rewire_resources.inject({}) do |memo, name|
             # Find the part to trim. Check for LWRP first, then just application_.
-            trim = application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) } || 'application'
+            trim = application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'
             # Map trimmed to untrimmed.
             memo[name[trim.length+1..-1]] = name
             memo
