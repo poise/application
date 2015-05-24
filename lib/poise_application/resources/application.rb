@@ -58,7 +58,7 @@ module PoiseApplication
           if defined?(Chef::DSL::Resources)
             # Chef >= 12.4.
             Chef::DSL::Resources.instance_methods
-          elsif
+          else
             # Chef < 12.4 >= 12.0.
             Chef::Resource.descendants.map do |klass|
               klass.node_map.instance_variable_get(:@map).keys + if klass.dsl_name.include?('::')
