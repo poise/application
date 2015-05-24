@@ -58,13 +58,18 @@ module PoiseApplication
           if defined?(Chef::DSL::Resources)
             # Chef >= 12.4.
             Chef::DSL::Resources.instance_methods
-          elsif defined?(Chef::Resource.descendants)
-            # Chef 12.3. Like 12.2, but each class has its own node_map.
-            Chef::Resource.descendants.map {|klass| klass.node_map.instance_variable_get(:@map).keys }.flatten
-          else
-            # Chef < 12.3. There is no actual API for this.
-            Chef::Resource.node_map.instance_variable_get(:@map).keys
-          end.map {|name| name.to_s }.select {|name| name.start_with?('application_') }
+          elsif
+            # Chef < 12.4 >= 12.0.
+            Chef::Resource.descendants.map do |klass|
+              klass.node_map.instance_variable_get(:@map).keys + if klass.dsl_name.include?('::')
+                # Probably not valid.
+                []
+              else
+                # Needed for things that don't call provides().
+                [klass.dsl_name]
+              end
+            end.flatten
+          end.map {|name| name.to_s }.select {|name| name.start_with?('application_') }.uniq
         end
 
         # Find all cookbooks that might contain LWRPs matching our name scheme.
