@@ -35,5 +35,15 @@ describe PoiseApplication::AppMixin do
     end
 
     it { is_expected.to deploy_application('/srv/mixintest').with(app_state: {'environment' => {'key' => 'two'}}) }
+
+    context 'with no parent' do
+      recipe do
+        mixin_test 'one'
+        mixin_test 'two'
+      end
+
+      it { is_expected.to run_mixin_test('one').with(app_state: {'environment' => {'key' => 'one'}}) }
+      it { is_expected.to run_mixin_test('two').with(app_state: {'environment' => {'key' => 'two'}}) }
+    end # /context with no parent
   end # /describe #app_state_environment
 end
