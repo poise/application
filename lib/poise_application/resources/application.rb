@@ -22,17 +22,47 @@ require 'poise'
 
 module PoiseApplication
   module Resources
+    # (see Application::Resource)
+    # @since 5.0.0
     module Application
+      # An `application` resource to manage application deployment.
+      #
+      # @since 5.0.0
+      # @provides application
+      # @action deploy
+      # @example
+      #   application '/srv/myapp' do
+      #     git '...'
+      #     poise_service 'myapp' do
+      #       command '/srv/myapp/main'
+      #     end
+      #   end
       class Resource < Chef::Resource
         include Poise(container: true, container_namespace: false)
         provides(:application)
         actions(:deploy)
 
+        # @!attribute path
+        #   Application base path.
+        #   @return [String]
         attribute(:path, kind_of: String, name_attribute: true)
+        # @!attribute environment
+        #   Environment variables to set for the whole application.
+        #   @return [Hash<String, String>]
         attribute(:environment, kind_of: Hash, default: lazy { Mash.new })
+        # @!attribute owner
+        #   System user that will own the application. This can be overriden in
+        #   individual subresources.
+        #   @return [String]
         attribute(:owner, kind_of: String)
+        # @!attribute group
+        #   System group that will own the application. This can be overriden in
+        #   individual subresources.
+        #   @return [String]
         attribute(:group, kind_of: String)
 
+        # Run the DSL rewire when the resource object is created.
+        # @api private
         def initialize(*args)
           super
           _rewire_dsl!
@@ -121,10 +151,18 @@ module PoiseApplication
         end
       end
 
+      # Provider for `application`.
+      #
+      # @since 5.0.0
+      # @see Resource
+      # @provides application
       class Provider < Chef::Provider
         include Poise
         provides(:application)
 
+        # `deploy` action for `application`. Creates the application base folder.
+        #
+        # @return [void]
         def action_deploy
           notifying_block do
             directory new_resource.path do
