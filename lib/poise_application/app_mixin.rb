@@ -41,6 +41,7 @@ module PoiseApplication
           super
           klass.extend(ClassMethods)
           klass.poise_subresource(:application, true)
+          klass.attribute(:path, kind_of: String, name_attribute: true)
         end
       end
 
