@@ -93,7 +93,9 @@ module PoiseApplication
             Chef::Resource.descendants.map do |klass|
               klass.node_map.instance_variable_get(:@map).keys + if klass.dsl_name.include?('::')
                 # Probably not valid.
+                # :nocov:
                 []
+                # :nocov:
               else
                 # Needed for things that don't call provides().
                 [klass.dsl_name]
