@@ -28,7 +28,12 @@ module PoiseApplication
       include Poise::Resource
 
       def app_state
-        parent.app_state
+        if parent
+          parent.app_state
+        else
+          # If there isn't a parent, just track within the resource.
+          @local_app_state ||= Mash.new
+        end
       end
 
       def app_state_environment
