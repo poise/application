@@ -26,7 +26,7 @@ describe PoiseApplication::Resources::Application::Resource do
     end
   end
 
-  it { is_expected.to deploy_application('/home/app').with(environment: 'production') }
+  it { is_expected.to deploy_application('/home/app').with(environment: {}) }
   it { is_expected.to create_directory('/home/app') }
   it { is_expected.to create_remote_directory('/home/app').with(source: 'myapp') }
 

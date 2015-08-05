@@ -29,7 +29,7 @@ module PoiseApplication
         actions(:deploy)
 
         attribute(:path, kind_of: String, name_attribute: true)
-        attribute(:environment, kind_of: String, default: lazy { node.chef_environment == '_default' ? 'production' : node.chef_environment })
+        attribute(:environment, kind_of: Hash, default: lazy { Mash.new })
         attribute(:owner, kind_of: String)
         attribute(:group, kind_of: String)
 
@@ -45,7 +45,7 @@ module PoiseApplication
         # @example
         #   if new_resource.parent && new_resource.parent.app_state['gemfile_path']
         def app_state
-          @app_state ||= Mash.new
+          @app_state ||= Mash.new(environment: environment)
         end
 
         private
