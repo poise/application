@@ -88,6 +88,45 @@ resource is processed just like any other recipe.
 * `application_go` – *Coming soon!*
 * `application_erlang` – *Coming soon!*
 
+## Resources
+
+### `application`
+
+The `application` resource has top-level configuration properties for each
+deployment and acts as a container for other deployment plugin resources.
+
+```ruby
+application '/opt/test_sinatra' do
+  git 'https://github.com/example/my_sinatra_app.git'
+  bundle_install do
+    deployment true
+  end
+  unicorn do
+    port 9000
+  end
+end
+```
+
+#### Actions
+
+* `:deploy` – Deploy the application. *(default)*
+
+#### Properties
+
+* `path` – Path to deploy the application to. *(name attribute)*
+* `environment` – Environment variables for all application deployment steps.
+* `group` – System group to deploy the application as.
+* `owner` – System user to deploy the application as.
+
+## Examples
+
+Some test recipes are available as examples for common application frameworks:
+
+* [Sinatra](https://github.com/poise/application_ruby/blob/master/test/cookbooks/application_ruby_test/recipes/sinatra.rb)
+* [Rails](https://github.com/poise/application_ruby/blob/master/test/cookbooks/application_ruby_test/recipes/rails.rb)
+* [Flask](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/flask.rb)
+* [Django](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/django.rb)
+
 ## Sponsors
 
 Development sponsored by [Chef Software](https://www.chef.io/), [Symonds & Son](http://symondsandson.com/), and [Orion](https://www.orionlabs.co/).
