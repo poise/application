@@ -7,7 +7,70 @@
 [![Gemnasium](https://img.shields.io/gemnasium/poise/application.svg)](https://gemnasium.com/poise/application)
 [![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-More info coming soon!
+A [Chef](https://www.chef.io/) cookbook to deploy applications.
+
+## Getting Started
+
+The application cookbook provides a central framework to deploy applications
+using Chef. Generally this will be web applications using things like Rails,
+Django, or NodeJS, but the framework makes no specific assumptions. The core
+`application` resource provides DSL support and helpers, but the heavy lifting
+is all done in specific plugins detailed below. Each deployment starts with
+an `application` resource:
+
+```ruby
+application '/path/to/deploy' do
+  owner 'root'
+  group 'root'
+
+  # ...
+end
+```
+
+The `application` resource uses the Poise subresource system for plugins. This
+means you configure the steps of the deployment like normal recipe code inside
+the `application` resource, with a few special additions:
+
+```ruby
+application '/path/to/deploy' do
+  owner 'root'
+  group 'root'
+
+  application_rails '/path/to/deploy' do
+    database 'mysql://dbhost/myapp'
+  end
+end
+```
+
+When evaluating the recipe inside the `application` resource, it first checks
+for `application_#{resource}`, as well as looking for an LWRP of the same name
+in any cookbook starting with `application_`. This means that a resource named
+`application_foo` can be used as `foo` inside the `application` resource:
+
+```ruby
+application '/path/to/deploy' do
+  owner 'root'
+  group 'root'
+
+  rails '/path/to/deploy' do
+    database 'mysql://dbhost/myapp'
+  end
+end
+```
+
+Additionally if a resource inside the `application` block doesn't have a name,
+it uses the same name as the application resource itself:
+
+```ruby
+application '/path/to/deploy' do
+  owner 'root'
+  group 'root'
+
+  rails do
+    database 'mysql://dbhost/myapp'
+  end
+end
+```
 
 
 ## Sponsors
