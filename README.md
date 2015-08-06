@@ -72,6 +72,21 @@ application '/path/to/deploy' do
 end
 ```
 
+Other than those two special features, the recipe code inside the `application`
+resource is processed just like any other recipe.
+
+## Available Plugins
+
+* [`application_git`](https://github.com/poise/application_git) – Deploy
+  application code from a git repository.
+* [`application_ruby`](https://github.com/poise/application_ruby) – Manage Ruby
+  deployments, such as Rails or Sinatra applications.
+* [`application_python`](https://github.com/poise/application_python) – Manage
+  Python deployments, such as Django or Flask applications.
+* `application_javascript` – *Coming soon!*
+* `application_java` – *Coming soon!*
+* `application_go` – *Coming soon!*
+* `application_erlang` – *Coming soon!*
 
 ## Sponsors
 
