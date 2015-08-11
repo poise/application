@@ -33,9 +33,15 @@ the `application` resource, with a few special additions:
 
 ```ruby
 application '/path/to/deploy' do
+  # Application resource properties.
   owner 'root'
   group 'root'
 
+  # Subresources, like normal recipe code.
+  package 'ruby'
+  git '/path/to/deploy' do
+    repository 'https://github.com/example/myapp.git'
+  end
   application_rails '/path/to/deploy' do
     database 'mysql://dbhost/myapp'
   end
@@ -88,6 +94,10 @@ resource is processed just like any other recipe.
 * `application_go` – *Coming soon!*
 * `application_erlang` – *Coming soon!*
 
+## Requirements
+
+Chef 12 or newer is required.
+
 ## Resources
 
 ### `application`
@@ -126,6 +136,63 @@ Some test recipes are available as examples for common application frameworks:
 * [Rails](https://github.com/poise/application_ruby/blob/master/test/cookbooks/application_ruby_test/recipes/rails.rb)
 * [Flask](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/flask.rb)
 * [Django](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/django.rb)
+
+## Upgrading From 4.x
+
+While the overall design of the revamped application resource is similar to the
+4.x version, some changes will need to be made. The `name` property no longer
+exists, with the name attribute being used as the path to the deployment.
+The `packages` property has been removed as this is more easily handled via
+normal recipe code.
+
+The SCM-related properties like `repository` and `revision` are now handled by
+normal plugins. If you were deploying from a private git repository you will
+likely want to use the `application_git` cookbook, otherwise just use the
+built-in `git` or `svn` resources as per normal.
+
+The properties related to the `deploy` resource like `strategy` and `symlinks`
+have been removed. The `deploy` resource is no longer used so these aren't
+relevant. As a side effect of this, you'll likely want to point the upgraded
+deployment at a new folder or manually clean the `current` and `shared` folders
+from the existing folder. The pseudo-Capistrano layout used by the `deploy`
+resource has few benefits in a config-managed world and introduced a lot of
+complexity and moving pieces that are no longer required.
+
+With the removal of the `deploy` resource, the callback properties and commands
+are no longer used as well. Subresources no longer use the complex
+actions-as-callbacks arrangement as existed before, instead following normal
+Chef recipe flow. Individual subresources may need to be tweaked to work with
+newer versions of the cookbooks they come from, though most have stayed similar
+in overall approach.
+
+## Database Migrations and Chef
+
+Several of the web application deployment plugins include optional support to
+run database migrations from Chef. For "toy" applications where the app and
+database run together on a single machine, this is fine and is a nice time
+saver. For anything more complex I highly recommend not running database
+migrations from Chef. Some initial operations like creating the database and/or
+database user are more reasonable as they tend to be done only once and by their
+nature the application does not yet have users so some level of eventual
+consistency is more acceptable. With migrations on a production application, I
+encourage using Chef and the application cookbooks to handle deploying the code
+and writing configuration files, but use something more specific to run the
+actual migration task. [Fabric](http://www.fabfile.org/),
+[Capistrano](http://capistranorb.com/), and [Rundeck](http://rundeck.org/) are
+all good choices for this orchestration tooling.
+
+Migrations can generally be applied idempotently but they have unique
+constraints (pun definitely intended) that make them tricky in a Chef-like,
+convergence-based system. First and foremost is that many table alterations
+lock the table for updating for at least some period of time. That can mean that
+while staging the new code or configuration data can happen within a window, the
+migration itself needs to be run in careful lockstep with the rest of the
+deployment process (eg. moving things in and out of load balancers). Beyond
+that, while most web frameworks have internal idempotence checks for migrations,
+running the process on two servers at the same time can have unexpected effects.
+
+Overall migrations are best thought of as a procedural step rather than a
+declaratively modeled piece of the system.
 
 ## Sponsors
 
