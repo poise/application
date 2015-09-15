@@ -89,7 +89,8 @@ resource is processed just like any other recipe.
   deployments, such as Rails or Sinatra applications.
 * [`application_python`](https://github.com/poise/application_python) – Manage
   Python deployments, such as Django or Flask applications.
-* `application_javascript` – *Coming soon!*
+* [`application_javascript`](https://github.com/poise/application_javascript) –
+  Manage server-side JavaScript deployments using Node.js or io.js.
 * `application_java` – *Coming soon!*
 * `application_go` – *Coming soon!*
 * `application_erlang` – *Coming soon!*
