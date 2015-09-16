@@ -121,6 +121,10 @@ end
 #### Actions
 
 * `:deploy` – Deploy the application. *(default)*
+* `:start` - Run `:start` on all subresources that support it.
+* `:stop` - Run `:stop` on all subresources that support it.
+* `:restart` - Run `:restart` on all subresources that support it.
+* `:reload` - Run `:reload` on all subresources that support it.
 
 #### Properties
 
@@ -128,6 +132,10 @@ end
 * `environment` – Environment variables for all application deployment steps.
 * `group` – System group to deploy the application as.
 * `owner` – System user to deploy the application as.
+* `action_on_update` – Action to run on the application resource when any
+  subresource is updated. *(default: restart)*
+* `action_on_update_immediately` – Run the `action_on_update` notification with
+  `:immediately`. *(default: false)*
 
 ## Examples
 
@@ -195,6 +203,18 @@ running the process on two servers at the same time can have unexpected effects.
 
 Overall migrations are best thought of as a procedural step rather than a
 declaratively modeled piece of the system.
+
+## Application Signals and Updates
+
+The `application` resource exposes `start`, `stop`, `restart`, and `reload`
+actions which will dispatch to any subresources attached to the application.
+This allows for generic application-level restart or reload signals that will
+work with any type of deployment.
+
+Additionally the `action_on_update` property is used to set a default
+notification so any subresource that updates will trigger an application
+restart or reload. This can be disabled by setting `action_on_update false` if
+you want to take manual control of service restarts.
 
 ## Sponsors
 

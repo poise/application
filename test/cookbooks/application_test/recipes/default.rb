@@ -19,3 +19,43 @@ application '/home/app' do
     content 'test plugin'
   end
 end
+
+# Restart behavior test.
+directory '/opt/restarter' do
+  owner 'root'
+  group 'root'
+  mode '755'
+end
+file '/opt/restarter/main.rb' do
+  content <<-EOH
+require 'webrick'
+server = WEBrick::HTTPServer.new(Port: 2000)
+trap('INT') { server.shutdown }
+server.mount_proc '/' do |req, res|
+  res.body = 'One'
+end
+server.start
+EOH
+end
+poise_service 'restarter' do
+  command '/opt/chef/embedded/bin/ruby /opt/restarter/main.rb'
+end
+
+application '/opt/restarter' do
+  file '/opt/restarter/main.rb2' do
+    path '/opt/restarter/main.rb'
+    content <<-EOH
+require 'webrick'
+server = WEBrick::HTTPServer.new(Port: 2000)
+trap('INT') { server.shutdown }
+server.mount_proc '/' do |req, res|
+  res.body = 'Two'
+end
+server.start
+EOH
+  end
+  poise_service 'restarter2' do
+    service_name 'restarter'
+    command '/opt/chef/embedded/bin/ruby /opt/restarter/main.rb'
+  end
+end

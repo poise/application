@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+require 'net/http'
+
 require 'serverspec'
 set :backend, :exec
 
@@ -24,4 +26,18 @@ end
 describe file('/home/app/plugin') do
   it { is_expected.to be_a_file }
   its(:content) { is_expected.to eq 'test plugin' }
+end
+
+describe 'restarter' do
+  describe port(2000) do
+    it { is_expected.to be_listening }
+  end
+
+  let(:http) { Net::HTTP.new('localhost', 2000) }
+
+  describe '/' do
+    subject { http.get('/') }
+    its(:code) { is_expected.to eq '200' }
+    its(:body) { is_expected.to eq 'Two' }
+  end
 end

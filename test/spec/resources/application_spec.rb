@@ -87,4 +87,29 @@ describe PoiseApplication::Resources::Application::Resource do
 
     it { is_expected.to run_test_plugin('/home/app') }
   end # /context with a plugin that has no name
+
+  context 'with a subresource that has an update' do
+    step_into(:application)
+    step_into(:ruby_block)
+    resource(:test_plugin) do
+      include Poise(parent: :application)
+      actions(:run, :restart)
+    end
+    provider(:test_plugin) do
+      def action_restart
+        node.run_state['did_restart'] = true
+      end
+    end
+    recipe do
+      application '/home/app' do
+        ruby_block { block {} }
+        test_plugin
+      end
+    end
+
+    it { is_expected.to run_ruby_block('/home/app') }
+    it { expect(chef_run.ruby_block('/home/app').updated?).to be true }
+    it { is_expected.to run_test_plugin('/home/app') }
+    it { expect(chef_run.node.run_state['did_restart']).to be true }
+  end # /context with a subresource that has an update
 end

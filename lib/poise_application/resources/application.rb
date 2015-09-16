@@ -30,6 +30,10 @@ module PoiseApplication
       # @since 5.0.0
       # @provides application
       # @action deploy
+      # @action start
+      # @action stop
+      # @action restart
+      # @action reload
       # @example
       #   application '/srv/myapp' do
       #     git '...'
@@ -40,7 +44,7 @@ module PoiseApplication
       class Resource < Chef::Resource
         include Poise(container: true, container_namespace: false)
         provides(:application)
-        actions(:deploy)
+        actions(:deploy, :start, :stop, :restart, :reload)
 
         # @!attribute path
         #   Application base path.
@@ -60,6 +64,14 @@ module PoiseApplication
         #   individual subresources.
         #   @return [String]
         attribute(:group, kind_of: String)
+        # @!attribute action_on_update
+        #   Action to run when any subresource is updated. Defaults to `:restart`.
+        #   @return [String, Symbol, nil, false]
+        attribute(:action_on_update, kind_of: [Symbol, String, NilClass, FalseClass], default: :restart)
+        # @!attribute action_on_update_immediately
+        #   Run the {#action_on_update} notification with `:immediately`.
+        #   @return [Boolean]
+        attribute(:action_on_update_immediately, equal_to: [true, false], default: false)
 
         # Run the DSL rewire when the resource object is created.
         # @api private
@@ -76,6 +88,18 @@ module PoiseApplication
         #   if new_resource.parent && new_resource.parent.app_state['gemfile_path']
         def app_state
           @app_state ||= Mash.new(environment: environment)
+        end
+
+        # Override Container#register_subresource to add our action_on_update.
+        #
+        # @api private
+        def register_subresource(resource)
+          super.tap do |added|
+            if added && action_on_update
+              Chef::Log.debug("[#{self}] Registering #{action_on_update_immediately ? 'immediate ' : ''}#{action_on_update} notification from #{resource}")
+              resource.notifies action_on_update.to_sym, self, (action_on_update_immediately ? :immediately : :delayed)
+            end
+          end
         end
 
         private
@@ -174,6 +198,52 @@ module PoiseApplication
             end
           end
         end
+
+        # `start` action for `application`. Proxies to subresources.
+        #
+        # @return [void]
+        def action_start
+          proxy_action(:start)
+        end
+
+        # `stop` action for `application`. Proxies to subresources.
+        #
+        # @return [void]
+        def action_stop
+          proxy_action(:stop)
+        end
+
+        # `restart` action for `application`. Proxies to subresources.
+        #
+        # @return [void]
+        def action_restart
+          proxy_action(:restart)
+        end
+
+        # `reload` action for `application`. Proxies to subresources.
+        #
+        # @return [void]
+        def action_reload
+          proxy_action(:reload)
+        end
+
+        private
+
+        # Proxy an action to any subresources that support it.
+        #
+        # @param action [Symbol] Action to proxy.
+        # @return [void]
+        def proxy_action(action)
+          Chef::Log.debug("[#{new_resource} Running proxied #{action} action")
+          new_resource.subresources.each do |r|
+            begin
+              r.run_action(action) if r.allowed_actions.include?(action)
+            rescue Chef::Exceptions::UnsupportedAction
+              # Don't care, just move on.
+            end
+          end
+        end
+
       end
     end
   end
