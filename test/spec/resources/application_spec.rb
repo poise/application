@@ -58,8 +58,24 @@ describe PoiseApplication::Resources::Application::Resource do
     it { is_expected.to run_test_plugin('plugin') }
   end # /context with a plugin test_plugin
 
-  context 'with a plugin appication_test_test_plugin' do
+  context 'with a plugin application_test_test_plugin' do
     resource(:application_test_test_plugin) do
+      include Poise(parent: :application)
+    end
+    provider(:application_test_test_plugin)
+    recipe do
+      extend RSpec::Mocks::ExampleMethods
+      allow(run_context.cookbook_collection).to receive(:keys).and_return(%w{application_test})
+      application '/home/app' do
+        test_test_plugin 'plugin'
+      end
+    end
+
+    it { is_expected.to run_application_test_test_plugin('plugin') }
+  end # /context with a plugin application_test_test_plugin
+
+  context 'with an LWRP application_test_test_plugin' do
+    resource(:application_test_test_plugin, parent: Chef::Resource::LWRPBase) do
       include Poise(parent: :application)
     end
     provider(:application_test_test_plugin)
@@ -72,7 +88,7 @@ describe PoiseApplication::Resources::Application::Resource do
     end
 
     it { is_expected.to run_application_test_test_plugin('plugin') }
-  end # /context with a plugin application_test_test_plugin
+  end # /context with an LWRP application_test_test_plugin
 
   context 'with a plugin that has no name' do
     resource(:test_plugin) do

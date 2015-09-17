@@ -146,8 +146,15 @@ module PoiseApplication
         def _rewire_map
           application_cookbooks = _rewire_cookbooks
           _rewire_resources.inject({}) do |memo, name|
+            # Grab the resource class to check if it is an LWRP.
+            klass = Chef::Resource.resource_for_node(name, node)
             # Find the part to trim. Check for LWRP first, then just application_.
-            trim = application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'
+            trim = if klass < Chef::Resource::LWRPBase
+              application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'
+            else
+              # Non-LWRPs are assumed to have a better name.
+              'application'
+            end
             # Map trimmed to untrimmed.
             memo[name[trim.length+1..-1]] = name
             memo
