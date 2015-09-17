@@ -166,6 +166,8 @@ module PoiseApplication
               # Store the caller to correct the source_line.
               created_at = caller[0]
               public_send(old_name, name, *args) do
+                # Set the declared type to be the native name.
+                self.declared_type = self.class.resource_name
                 # Fix the source location. For Chef 12.4 we could do this with the
                 # declared_at parameter on the initial send.
                 self.source_line = created_at
