@@ -77,7 +77,7 @@ module PoiseApplication
         # @api private
         def initialize(*args)
           super
-          _rewire_dsl!
+          _rewire_dsl! if node
         end
 
         # Application-specific state values used as a way to communicate between
