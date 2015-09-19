@@ -147,7 +147,7 @@ module PoiseApplication
           application_cookbooks = _rewire_cookbooks
           _rewire_resources.inject({}) do |memo, name|
             # Grab the resource class to check if it is an LWRP.
-            klass = Chef::Resource.resource_for_node(name, node)
+            klass = Chef::Resource.resource_for_node(name.to_sym, node)
             # Find the part to trim. Check for LWRP first, then just application_.
             trim = if klass < Chef::Resource::LWRPBase
               application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'

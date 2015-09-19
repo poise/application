@@ -15,6 +15,13 @@
 #
 
 require 'spec_helper'
+require 'poise'
+
+class ApplicationTestRealClass < Chef::Resource
+  include Poise
+  provides(:application_test_other_name)
+  actions(:run)
+end
 
 describe PoiseApplication::Resources::Application::Resource do
   step_into(:application)
@@ -103,6 +110,16 @@ describe PoiseApplication::Resources::Application::Resource do
 
     it { is_expected.to run_test_plugin('/home/app') }
   end # /context with a plugin that has no name
+
+  context 'with a resource that does not match the class name' do
+    recipe do
+      application '/home/app' do
+        test_other_name
+      end
+    end
+
+    it { is_expected.to run_application_test_other_name('/home/app') }
+  end # /context with a resource that does not match the class name
 
   context 'with a subresource that has an update' do
     step_into(:application)
