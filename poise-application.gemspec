@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w{lib}
 
   spec.add_dependency 'halite', '~> 1.0'
-  spec.add_dependency 'poise', '~> 2.4.pre'
+  spec.add_dependency 'poise', '~> 2.4'
   spec.add_dependency 'poise-service', '~> 1.0'
 
   spec.add_development_dependency 'poise-boiler', '~> 1.0'
