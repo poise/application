@@ -1,5 +1,9 @@
 # Poise-Application Changelog
 
+## v5.0.0
+
+* Massive rewrite on top of newer Chef patterns. See the 5.0 README for details.
+
 ## v4.1.6
 
 * Support for Chef 12.
