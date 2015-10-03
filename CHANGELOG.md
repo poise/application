@@ -1,4 +1,4 @@
-# Poise-Application Changelog
+# Application Changelog
 
 ## v5.0.0
 
