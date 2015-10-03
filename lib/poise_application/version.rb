@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseApplication
   VERSION = '5.0.0.pre'
 end

@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseApplication
   # Base exception class for poise-application errors.
   #
