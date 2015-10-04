@@ -40,16 +40,6 @@ module PoiseApplication
       #   @return [String]
       attribute(:path, kind_of: String, name_attribute: true)
 
-      # @!attribute owner
-      #   Application resource owner, defaults to application owner.
-      #   @return [String]
-      attribute(:owner, kind_of: String, default: lazy { parent && parent.owner })
-
-      # @!attribute group
-      #   Application resource group, defaults to application group.
-      #   @return [String]
-      attribute(:group, kind_of: String, default: lazy { parent && parent.group })
-
       # A delegator for accessing the application state. If no application
       # parent is found, the state will be tracked internally within the
       # resource.

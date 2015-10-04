@@ -1,10 +1,5 @@
 # Application Changelog
 
-## v5.1.0
-
-* Add `owner` and `group` properties to all application resources to allow
-  per-resource customization.
-
 ## v5.0.0
 
 * Massive rewrite on top of newer Chef patterns. See the 5.0 README for details.
