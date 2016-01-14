@@ -39,6 +39,7 @@ module PoiseApplication
       class Resource < Chef::Resource::Template
         include PoiseApplication::AppFileMixin
         provides(:application_template)
+        actions(:create, :create_if_missing, :delete, :touch)
         subclass_providers!
 
         def initialize(*args)
