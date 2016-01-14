@@ -1,9 +1,0 @@
----
-driver:
-  name: docker
-  binary: "./docker"
-  socket: tcp://docker.poise.io:443
-  tls_verify: true
-  tls_cacert: test/docker/docker.ca
-  tls_cert: test/docker/docker.pem
-  tls_key: test/docker/docker.key
