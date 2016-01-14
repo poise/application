@@ -1,5 +1,9 @@
 # Application Changelog
 
+## v5.1.0
+
+* Add `application_cookbook_file`, `application_file`, and `application_template resources.
+
 ## v5.0.0
 
 * Massive rewrite on top of newer Chef patterns. See the 5.0 README for details.
