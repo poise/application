@@ -34,8 +34,8 @@ module PoiseApplication
 
       def initialize(*)
         super
-        # So our lazy default below can work.
-        remove_instance_variable(:@path)
+        # So our lazy default below can work. Not needed on 12.7+.
+        remove_instance_variable(:@path) if instance_variable_defined?(:@path)
       end
 
       # @!attribute path
