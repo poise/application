@@ -14,9 +14,16 @@
 # limitations under the License.
 #
 
+require 'poise_application/resources/application'
+require 'poise_application/resources/application_cookbook_file'
+require 'poise_application/resources/application_file'
+require 'poise_application/resources/application_template'
+
 
 module PoiseApplication
+  # Chef resources and providers for poise-application.
+  #
+  # @since 5.0.0
   module Resources
-    autoload :Application, 'poise_application/resources/application'
   end
 end

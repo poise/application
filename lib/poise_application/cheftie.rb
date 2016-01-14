@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-require 'poise_application/resources/application'
+require 'poise_application/resources'

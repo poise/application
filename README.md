@@ -137,6 +137,26 @@ end
 * `action_on_update_immediately` – Run the `action_on_update` notification with
   `:immediately`. *(default: false)*
 
+### `application_cookbook_file`, `application_file`, `application_template`
+
+The `application_cookbook_file`, `application_file`, and `application_template`
+resources extend the core Chef resources to take some application-level
+configuration in to account:
+
+```ruby
+application '/opt/myapp' do
+  template 'myapp.conf' do
+    source 'myapp.conf.erb'
+  end
+end
+```
+
+If the resource name is a relative path, it will be expanded relative to the
+application path. If an owner or group is declared for the application, those
+will be the default user and group for the resource.
+
+All other actions and properties are the same as the similar resource in core Chef.
+
 ## Examples
 
 Some test recipes are available as examples for common application frameworks:
