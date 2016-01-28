@@ -3,14 +3,8 @@ cache: bundler
 language: ruby
 rvm:
 - '2.2'
-addons:
-  apt:
-    packages:
-    - libgecode-dev
 env:
   global:
-  - USE_SYSTEM_GECODE=true
-  - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
   - secure: QXR/BZQJDLzdefxrG4WOJYiUCey9l8hNzc5rAAlVqAGWa7Mg5WaPw9adkPD6StZE3k6NN6dnwrX84wL4x5R89RnB2oCU7e1mxfCPR+RRoQcm+BG/7PcLyFz/jO99wZ9R0DYVrT3PwTfTad6ABaQ+II/f+UZQBh4Xf4+rImMCXo8=
   - secure: IZ0ingfE5sdwCCrBqIxCtiLI8UDoKQBf8eXGsVcanLRI13yo8Tn58XM+NgYE+WOuiQhfdGC2Q8UX8U3df/KVdqftP+JNZ1At7D55i4Pgy3d0ywvBKaxvhPGEs72krqjfT84bsNx2NZwQko2BHPxw9pozxnrEF/h7WR2GZSlJicI=
 bundler_args: "--binstubs=$PWD/bin --jobs 3 --retry 3"

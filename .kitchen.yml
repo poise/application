@@ -1,8 +1,3 @@
 ---
 #<% require 'poise_boiler' %>
 <%= PoiseBoiler.kitchen(platforms: 'ubuntu-14.04') %>
-
-suites:
-- name: default
-  run_list:
-  - recipe[application_test]
