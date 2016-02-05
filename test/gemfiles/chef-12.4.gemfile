@@ -17,3 +17,5 @@
 eval_gemfile File.expand_path('../../../Gemfile', __FILE__)
 
 gem 'chef', '~> 12.4.3'
+# Pending https://github.com/berkshelf/ridley/pull/335
+gem 'ridley', '4.4.1'
