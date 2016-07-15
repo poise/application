@@ -163,9 +163,9 @@ Some test recipes are available as examples for common application frameworks:
 
 * [Sinatra](https://github.com/poise/application_ruby/blob/master/test/cookbooks/application_ruby_test/recipes/sinatra.rb)
 * [Rails](https://github.com/poise/application_ruby/blob/master/test/cookbooks/application_ruby_test/recipes/rails.rb)
-* [Flask](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/flask.rb)
-* [Django](https://github.com/poise/application_python/blob/master/test/cookbooks/application_python_test/recipes/django.rb)
-* [Express](https://github.com/poise/application_javascript/blob/master/test/cookbooks/application_javascript_test/recipes/express.rb)
+* [Flask](https://github.com/poise/application_python/blob/master/test/cookbook/recipes/flask.rb)
+* [Django](https://github.com/poise/application_python/blob/master/test/cookbook/recipes/django.rb)
+* [Express](https://github.com/poise/application_javascript/blob/master/test/cookbook/recipes/express.rb)
 
 ## Upgrading From 4.x
 
