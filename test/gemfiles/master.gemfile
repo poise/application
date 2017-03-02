@@ -18,6 +18,7 @@ eval_gemfile File.expand_path('../../../Gemfile', __FILE__)
 
 gem 'chef', github: 'chef/chef'
 gem 'halite', github: 'poise/halite'
+gem 'ohai', github: 'chef/ohai'
 gem 'poise', github: 'poise/poise'
 gem 'poise-boiler', github: 'poise/poise-boiler'
 gem 'poise-profiler', github: 'poise/poise-profiler'
