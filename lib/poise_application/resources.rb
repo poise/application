@@ -16,6 +16,7 @@
 
 require 'poise_application/resources/application'
 require 'poise_application/resources/application_cookbook_file'
+require 'poise_application/resources/application_directory'
 require 'poise_application/resources/application_file'
 require 'poise_application/resources/application_template'
 
