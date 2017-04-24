@@ -1,0 +1,7 @@
+--plugin classmethods
+--embed-mixin ClassMethods
+--hide-api private
+--markup markdown
+--hide-void-return
+--tag provides:Provides
+--tag action:Actions

@@ -16,10 +16,13 @@
 
 eval_gemfile File.expand_path('../../../Gemfile', __FILE__)
 
-gem 'chef', github: 'chef/chef'
-gem 'halite', github: 'poise/halite'
-gem 'ohai', github: 'chef/ohai'
-gem 'poise', github: 'poise/poise'
-gem 'poise-boiler', github: 'poise/poise-boiler'
-gem 'poise-profiler', github: 'poise/poise-profiler'
-gem 'poise-service', github: 'poise/poise-service'
+gem 'chef', git: 'https://github.com/chef/chef.git'
+gem 'chefspec', git: 'https://github.com/sethvargo/chefspec.git'
+gem 'fauxhai', git: 'https://github.com/customink/fauxhai.git'
+gem 'foodcritic', git: 'https://github.com/foodcritic/foodcritic.git'
+gem 'halite', git: 'https://github.com/poise/halite.git'
+gem 'ohai', git: 'https://github.com/chef/ohai.git'
+gem 'poise', git: 'https://github.com/poise/poise.git'
+gem 'poise-boiler', git: 'https://github.com/poise/poise-boiler.git'
+gem 'poise-profiler', git: 'https://github.com/poise/poise-profiler.git'
+gem 'poise-service', git: 'https://github.com/poise/poise-service.git'

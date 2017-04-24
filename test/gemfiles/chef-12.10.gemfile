@@ -1,6 +1,5 @@
 #
-# Copyright 2009-2016, Opscode, Inc.
-# Copyright 2015-2016, Noah Kantrowitz
+# Copyright 2017, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,21 +14,10 @@
 # limitations under the License.
 #
 
-source 'https://rubygems.org/'
+eval_gemfile File.expand_path('../../../Gemfile', __FILE__)
 
-gemspec path: File.expand_path('..', __FILE__)
-
-def dev_gem(name, path: File.join('..', name), github: nil)
-  path = File.expand_path(File.join('..', path), __FILE__)
-  if File.exist?(path)
-    gem name, path: path
-  elsif github
-    gem name, git: "https://gitub.com/#{github}.git"
-  end
-end
-
-dev_gem 'halite'
-dev_gem 'poise'
-dev_gem 'poise-boiler'
-dev_gem 'poise-service'
-dev_gem 'poise-profiler'
+gem 'chef', '~> 12.10.24'
+gem 'chefspec', '< 6'
+gem 'fauxhai', '<= 3.9.0'
+gem 'foodcritic', '< 8'
+gem 'rack', '< 2'

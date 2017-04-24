@@ -1,8 +1,11 @@
+Berksfile.lock
 Gemfile.lock
 test/gemfiles/*.lock
-Berksfile.lock
 .kitchen/
 .kitchen.local.yml
 test/docker/
+test/ec2/
 coverage/
 pkg/
+.yardoc/
+doc/
