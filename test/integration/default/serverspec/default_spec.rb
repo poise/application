@@ -28,6 +28,15 @@ describe file('/home/app/plugin') do
   its(:content) { is_expected.to eq 'test plugin' }
 end
 
+describe file('/home/app/readme.txt') do
+  it { is_expected.to be_a_file }
+  its(:content) { is_expected.to eq 'hello' }
+end
+
+describe file('/home/app/logs') do
+  it { is_expected.to be_a_directory }
+end
+
 describe 'restarter' do
   describe port(2000) do
     it { is_expected.to be_listening }

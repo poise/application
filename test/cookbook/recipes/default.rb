@@ -18,6 +18,10 @@ application '/home/app' do
   test_plugin do
     content 'test plugin'
   end
+  file 'readme.txt' do
+    content 'hello'
+  end
+  directory 'logs'
 end
 
 # Restart behavior test.
