@@ -137,9 +137,9 @@ end
 * `action_on_update_immediately` – Run the `action_on_update` notification with
   `:immediately`. *(default: false)*
 
-### `application_cookbook_file`, `application_file`, `application_template`
+### `application_cookbook_file`, `application_directory`, `application_file`, `application_template`
 
-The `application_cookbook_file`, `application_file`, and `application_template`
+The `application_cookbook_file`, `application_directory`, `application_file`, and `application_template`
 resources extend the core Chef resources to take some application-level
 configuration in to account:
 
@@ -148,6 +148,7 @@ application '/opt/myapp' do
   template 'myapp.conf' do
     source 'myapp.conf.erb'
   end
+  directory 'logs'
 end
 ```
 
