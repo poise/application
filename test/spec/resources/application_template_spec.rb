@@ -45,7 +45,7 @@ describe PoiseApplication::Resources::ApplicationTemplate do
       end
     end
 
-    it { is_expected.to create_application_template('app.conf').with(user: 'myuser') }
+    it { is_expected.to create_application_template('app.conf').with(owner: 'myuser') }
   end # /context 'with an application user
 
   context 'with an application user and a local user' do
@@ -53,12 +53,12 @@ describe PoiseApplication::Resources::ApplicationTemplate do
       application '/home/app' do
         owner 'myuser'
         template 'app.conf' do
-          user 'otheruser'
+          owner 'otheruser'
         end
       end
     end
 
-    it { is_expected.to create_application_template('app.conf').with(user: 'otheruser') }
+    it { is_expected.to create_application_template('app.conf').with(owner: 'otheruser') }
   end # /context 'with an application user and a local user
 
   context 'with an application group' do

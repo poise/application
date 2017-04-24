@@ -48,10 +48,13 @@ module PoiseApplication
       #   @return [String, Integer]
       attribute(:group, kind_of: [String, Integer, NilClass], default: lazy { parent && parent.group })
 
-      # @!attribute user
+      # @!attribute owner
       #   Override the default user to be the app owner if unspecified.
       #   @return [String, Integer]
-      attribute(:user, kind_of: [String, Integer, NilClass], default: lazy { parent && parent.owner })
+      attribute(:owner, kind_of: [String, Integer, NilClass], default: lazy { parent && parent.owner })
+
+      # For the forgetful.
+      alias_method :user, :owner
     end
 
     module Provider
