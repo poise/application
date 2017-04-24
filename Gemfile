@@ -24,7 +24,7 @@ def dev_gem(name, path: File.join('..', name), github: nil)
   if File.exist?(path)
     gem name, path: path
   elsif github
-    gem name, git: "https://gitub.com/#{github}.git"
+    gem name, git: "https://github.com/#{github}.git"
   end
 end
 
