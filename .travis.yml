@@ -19,7 +19,7 @@ matrix:
   include:
     - rvm: 2.3.1
       gemfile: test/gemfiles/chef-12.gemfile
-    - rvm: 2.4.1
+    - rvm: 2.4.3
       gemfile: test/gemfiles/chef-13.gemfile
     - rvm: 2.1.4
       gemfile: test/gemfiles/chef-12.0.gemfile
@@ -64,4 +64,18 @@ matrix:
     - rvm: 2.4.1
       gemfile: test/gemfiles/chef-13.0.gemfile
     - rvm: 2.4.1
+      gemfile: test/gemfiles/chef-13.1.gemfile
+    - rvm: 2.4.1
+      gemfile: test/gemfiles/chef-13.2.gemfile
+    - rvm: 2.4.1
+      gemfile: test/gemfiles/chef-13.3.gemfile
+    - rvm: 2.4.2
+      gemfile: test/gemfiles/chef-13.4.gemfile
+    - rvm: 2.4.2
+      gemfile: test/gemfiles/chef-13.5.gemfile
+    - rvm: 2.4.2
+      gemfile: test/gemfiles/chef-13.6.gemfile
+    - rvm: 2.4.3
+      gemfile: test/gemfiles/chef-13.7.gemfile
+    - rvm: 2.5.0
       gemfile: test/gemfiles/master.gemfile
